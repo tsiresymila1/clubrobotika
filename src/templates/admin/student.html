@@ -1,0 +1,133 @@
+{% extends "../layouts/admin.html" %}
+
+{% block admin_content %}
+    <!-- Page content -->
+    <div class="container-fluid" style="margin-top:20px;">
+        <nav class="d-flex title-dash  " aria-label="breadcrumb">
+            <ol class="breadcrumb mt-2 mb-2 w-100 py-3 shadow-theme">
+                <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Etudiants</li>
+            </ol>
+        </nav>
+        <div class="container-fluid">
+            <div class="row justify-content-md-start justify-content-sm-center mb-3">
+                <div class="col-md-3 col-sm-12 p-3">
+                    <input type="text" class="form-control search-control" placeholder="Recherche" >
+                </div>
+                
+                <div class="col-md-2 col-sm-12 p-3 text-center">
+                    <div class="form-inline justify-content-center">
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1 pr-2">Categorie</label>
+                            <select class="form-control" id="exampleFormControlSelect1">
+                              <option>A</option>
+                              <option>B</option>
+                              <option>C</option>
+                            </select>
+                          </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-12 p-3 text-center">
+                    <a href="/student/add" class="btn btn-info"><i class="fa fa-user-plus"></i> Nouveau</a>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8 col-col-sm-12 m-0 p-0">
+                    <div class="card shadow-theme border-1 card-theme card-radius-5">
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button">
+                                List des etudiant
+                                </button>
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-hover table-bordered table-responsive-lg">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Matricule</th>
+                                    <th scope="col">Catégorie</th>
+                                    <th scope="col">Nom et Prénom</th>
+                                    <th scope="col">Grade</th>
+                                    <th scope="col">Filière</th>
+                                    <th scope="col">Ecole</th>
+                                    <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                    <th scope="row">1</th>
+                                    <td>A</td>
+                                    <td>RAZANAKOTO Fenohasintsoa Marilia Lauriane</td>
+                                    <td>2 éme année</td>
+                                    <td>ELectromecanique</td>
+                                    <td>ETS Amparibe</td>
+                                    <td class="d-flex justify-content-between">
+                                        <a type="button" class="btn btn-info m-1" data-toggle="modal" data-target="#modal_aside_right"><i class="fa fa-edit"></i> Edit</a>
+                                        <a type="button" class="btn btn-danger m-1"><i class="fa fa-trash"></i> Suppr.</a>
+                                    </td>
+                                    </tr>
+                                    <tr>
+                                    <th scope="row">2</th>
+                                    <td>B</td>
+                                    <td>RANDRIARIMANANA Tsiresy Milà</td>
+                                    <td>5 éme année</td>
+                                    <td>Télécommunication</td>
+                                    <td>ESPA Vontovorona</td>
+                                    <td class="d-flex justify-content-between">
+                                        <a type="button" class="btn btn-info m-1" data-toggle="modal" data-target="#modal_aside_right"><i class="fa fa-edit"></i> Edit</a>
+                                        <a type="button" class="btn btn-danger m-1"><i class="fa fa-trash"></i> Suppr.</a>
+                                    </td>
+                                    </tr>            
+                                </tbody>
+                            </table>
+                        </div>
+                       
+                    </div>
+                    
+                </div>
+                <div class="col-md-4 col-col-sm-12 mr-0 pr-0 ">
+                    <div class="card shadow-theme card-theme border-1 h-100 card-radius-5">
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                 <div class="btn btn-link text-center">
+                                Information
+                                </div>
+                            </h2>
+                        </div>
+                        <div class="card-body"></div>
+                    </div>
+                </div>
+                 <!-- Modal -->
+                <div id="modal_aside_right" class="modal fixed-left fade" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-dialog-aside" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header  text-center font-weight-bold">
+                            <h5 class="modal-title">Information etudiant</h5>
+                            <button type="button" class="text-white close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                           <div class="row justify-content-center my-3">
+                                <div class="col text-center">
+                                    <img class="img-fluid img-responsive" width="100" height="100" src="/static/assets/logo.png" />
+                                </div>
+                           </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
+                            <button type="button" class="btn btn-info">Modifier</button>
+                        </div>
+                        </div>
+                    </div>
+                </div> 
+                <!-- modal.// -->
+            </div>
+        </div>
+    </div>
+
+   
+{% endblock %}

@@ -1,0 +1,40 @@
+<div class="border-right bg-white" id="sidebar-wrapper" style="margin-top:45px !important;">
+    <div class="sidebar-heading primary-white ">
+        <div class="row">
+            <div class="col-12 mt-4" style="text-align:center;font-weight : bold;">
+                <img src="/static/assets/logo.png" class="rounded-circle img-fluid" width="150"
+                    height="80" alt="">
+            </div>
+        </div>
+    </div>
+    <div class="list-group list-group-flush">
+        <a href="/admin"
+            class=" p-3 list-group-item list-group-item-action active"><i
+                class="fas fa-server">
+            </i> <span class="ml-4">Dashboard</span></a>
+
+        <a href="/student"
+            class="p-3 list-group-item list-group-item-action  <?php echo $isuser ?>"><i
+                class="fas fa-users">
+            </i> <span class="ml-4" >Etudiants</span></a>
+        <a href="/programs"
+            class="p-3 list-group-item list-group-item-action <?php echo $isprogram ?>"><i
+                class="fas fa-map">
+            </i> <span class="ml-4" >Programmes</span></a>
+        <a href="/templates"
+            class="p-3 list-group-item list-group-item-action  <?php echo $istemplate ?>">
+            <i class="fas fa-briefcase "></i> <span class="ml-4">Evenements</span> </a>
+         <a href="/admin/account"
+            class="p-3 list-group-item list-group-item-action <?php echo $ismedia ?>"><i
+                class="fas fa-user"></i><span class="ml-4" >Compte</span></a>
+        <a href="images"
+            class="p-3 list-group-item list-group-item-action <?php echo $ismedia ?>"><i
+                class="fas fa-folder-open"></i><span class="ml-4" >Documents</span></a>
+        {% if(request.session.user.role == "superadmin")%}
+         <a href="/coach"
+            class="p-3 list-group-item list-group-item-action <?php echo $ismedia ?>"><i
+                class="fas fa-chalkboard-teacher"></i><span class="ml-4" >Coachs</span></a>
+        {%endif%}
+    </div>
+</div>
+

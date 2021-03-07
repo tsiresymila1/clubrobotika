@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,
+        body {
+            -webkit-print-color-adjust: exact;
+        }
+        
+        @font-face {
+            font-family: 'ABeeZee';
+            font-style: normal;
+            font-weight: normal;
+            src: url('/static/fonts/ABeeZee-Regular.ttf') format('truetype');
+        }
+    </style>
+</head>
+
+<body style="margin:0;padding:0;font-family: 'ABeeZee',Arial, Helvetica, sans-serif;">
+    <div style="width: 9cm;height: 5cm;background-color: white;">
+        <div style=" height:20px;width:9.02cm;background-image: linear-gradient(rgb(221, 31, 31), rgb(219, 79, 23));font-weight: bold;text-align: center;color:#f5f5f5;padding-top: 5px;">
+            <div style="font-size: 9px;text-align: center;line-height: 10px;">CLUB ROBOTIKA MADAGASCAR</div>
+            <div style="font-size: 9px;text-align: center; line-height: 10px;">C.R.M</div>
+        </div>
+        <div style="width: 4cm; height: 4cm ;position: absolute;opacity: 0.2; left: 2.5cm;">
+            <img src="{{robot2}} " width="150" height="120" />
+        </div>
+        <div style="width: 3cm; position: absolute;margin-left: 6.4cm; ">
+            <div style="width: 2cm; height: 2cm; margin: 0.1cm 15px 5px 15px ">
+                <img src="{{logo}} " width="60" height="60" />
+            </div>
+        </div>
+        <div style="width: 3cm; position: absolute;margin-left: 6.4cm; ">
+            <div style="width: 2cm; height: 2cm; margin: 2cm 15px 5px 15px ">
+                <img src="{{coach.image}} " width="60" height="60" />
+            </div>
+        </div>
+        <div style="width: 9cm;position: absolute;">
+            <div style="margin: 25px 5px 5px 15px; font-size: 12px;font-size: 5px; ">
+                Robotika-2021
+            </div>
+            <div style="margin: 10px 5px 5px 15px;width: 9cm; font-size: 7px;line-height: 10px; ">
+                <div style="width:1cm; font-weight: bold;display: inline-block;">Nom : </div>
+                <div style="letter-spacing: 1.3px;display: inline;">{{coach.name}}</div>
+            </div>
+            <div style="margin: 1px 5px 5px 15px;width: 9cm; font-size: 7px;line-height: 10px; ">
+                <div style="width:1cm; font-weight: bold ;display: inline-block;">Prénom : </div>
+                <div style="letter-spacing: 1.3px;display: inline;">{{coach.lastname}}</div>
+            </div>
+            <div style="margin: 1px 5px 5px 15px;width: 9cm; font-size: 7px; line-height: 10px;">
+                <div style="width:1cm; font-weight: bold;display: inline-block; ">Matricule : </div>
+                <div style="letter-spacing: 1.3px;display: inline;">{{coach.matricule}}</div>
+            </div>
+            <div style="margin: 1px 5px 5px 30px;width: 9cm; font-size: 7px; line-height: 10px; ">
+                <div style="width:0.5cm; font-weight: bold ;display: inline;">Catégorie : </div>
+                <div style="letter-spacing: 1.3px;display: inline; font-weight: bold;font-size: 8px;">{{coach.category}}</div>
+            </div>
+        </div>
+
+        <div style="width: 50px; height: 50px ;position: absolute;top: 3.2cm;left: 20px; ">
+            <img src="{{robot}} " width="50 " height="50 " />
+        </div>
+        <div style="position: absolute;top: 4cm;left: 4cm; font-size: 12px;font-weight: bold;">
+            COACH
+        </div>
+        <div style="font-size: 7px;position:absolute;width:9cm;background-image: linear-gradient( rgb(201, 26, 26), rgb(190, 60, 60) );height: 0.4cm;margin-top: 3.8cm; color: white; padding-left: 15px; padding-top: 5px; padding-bottom: 0px; line-height: 10px; ">
+            Date d'expiration : 06-12-2021
+        </div>
+    </div>
+    <div style="width:9cm;height:5cm;background-color: white;padding-left:3.2cm;">
+        <div style="position: absolute;top: 6cm;">
+            <img src=" {{qrcode}} " width="100" height="100 " />
+        </div>
+    </div>
+</body>
+
+</html>

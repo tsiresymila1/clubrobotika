@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> {% block title %}Hello{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="flask web template base">
+    <meta name="author" content="Tsiresy Milà">
+    <link href="/static/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/dist/css/all.min.css" rel="stylesheet">
+     <link href="/static/css/styles.css" rel="stylesheet">
+     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+<body>
+    {% block content %}
+    {% endblock %}
+    <script src="/static/dist/js/jquery-3.5.1.min.js"></script>
+    <script src="/static/dist/js/bootstrap.min.js"></script>
+    <script src="/static/dist/js/all.min.js"></script>
+    <script src="/static/js/custom.js"></script>
+    {% block script %}
+    {% endblock %}
+    <script>
+        $('#menu-toggle').click(function (e) {
+            e.preventDefault();
+            $('#wrapper').toggleClass('toggled');
+        });
+    </script>
+</body>

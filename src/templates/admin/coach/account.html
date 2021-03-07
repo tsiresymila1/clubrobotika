@@ -1,0 +1,227 @@
+{% extends "../../layouts/admin.html" %}
+
+{% block admin_content %}
+    <!-- Page content -->
+    <div class="container-fluid" style="margin-top:20px;">
+        <nav class="d-flex title-dash  " aria-label="breadcrumb">
+            <ol class="breadcrumb mt-2 mb-2 w-100 py-3 shadow-theme">
+                <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Compte</li>
+            </ol>
+        </nav>
+
+        <div class="container-fluid mt-5">
+            <div class="row">
+                 <div class="col-md-4 col-col-sm-12 mr-0 px-2">
+                    <div class="card shadow-theme card-theme border-1 card-radius-5 card-red ">
+                        <div class="card-header " id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button">
+                                Profile
+                                </button>
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="row justify-content-center mb-4">
+                                <div class="profile-border">
+                                     <img src="/static/assets/profile/{{ request.session.user.image}}" width="100" height="100" class="rounded-circle border-1">
+                                </div>
+                            </div>
+                            <div class="row justify-content-center  mb-2">
+                                <h6>{{ request.session.user.lastname}}</h6>
+                            </div>
+                            <div class="row justify-content-center mb-2">
+                                <h6>{{ request.session.user.name}}</h6>
+                            </div>
+                            <div class="row justify-content-center mb-2">
+                                <h6 class="font-weight-bold">Coach {{ request.session.user.category}}</h6>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Nombre de présence
+                                <span class="badge badge-primary badge-pill">14</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Nombre d'absence
+                                <span class="badge badge-primary badge-pill">2</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Nombre d'étudiant
+                                <span class="badge badge-primary badge-pill">1</span>
+                                </li>
+                              </ul> 
+                            
+                        </div>
+                    </div>
+                    <div class="card shadow-theme card-theme  border-1 card-radius-5 card-red mt-5">
+                        <div class="card-header bg-theme-color" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button">
+                                A Propos
+                                </button>
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Téléphone
+                                <span class="badge badge-primary badge-pill">{{ request.session.user.phone}}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Email
+                                <span class="badge badge-primary badge-pill">{{ request.session.user.email}}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Facebook
+                                <span class="badge badge-primary badge-pill">1</span>
+                                </li>
+                              </ul> 
+                            
+                        </div>
+                    </div>
+                   
+                </div>
+                <div class="col-md-8 col-col-sm-12 m-0 px-2">
+                    <div class="card shadow-theme border-1 card-theme card-radius-5">
+                        <div class="card-header " id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button">
+                                Information
+                                </button>
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="activity-tab" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="true"> <i class="fa fa-tasks"></i> Activité</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="timeline-tab" data-toggle="tab" href="#timeline" role="tab" aria-controls="timeline" aria-selected="false"> <i class="fa fa-history"></i> Journal</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="setting-tab" data-toggle="tab" href="#setting" role="tab" aria-controls="setting" aria-selected="false"> <i class="fa fa-cog"></i> Parametre</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="security-tab" data-toggle="tab" href="#security" role="tab" aria-controls="security" aria-selected="false"> <i class="fa fa-lock"></i> Securité</a>
+                                </li>
+                            </ul>
+                             <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="activity" role="tabpanel" aria-labelledby="activity-tab">
+
+                                </div>
+                                <div class="tab-pane fade pt-2 pb-2" id="timeline" role="tabpanel" aria-labelledby="timeline-tab">
+                                    <div class="card">
+                                        <div class="card-body">
+                                          This is some text within a card body.
+                                        </div>
+                                      </div>
+                                </div>
+                                <div class="tab-pane fade" id="setting" role="tabpanel" aria-labelledby="setting-tab">
+                                    
+                                    <div class="container-fluid mt-5"  style="overflow-y: auto; height: 100%;" >
+                                        <input type="hidden" value="{{request.session.user.id}}" name="id" />
+                                        <div class="row justify-content-center">
+                                            <input type="file" class="d-none form-control" onchange="readURL(this)" id="file" name="file" accept="image/gif, image/jpeg, image/png, image/jpg" aria-describedby="textHelp">
+                                            <label for="file">
+                                                <div  style="border:1px inset #E2E2E2F1;padding:10px;">
+                                                    <img width="100" height="100" src="/static/assets/profile/{{request.session.user.image}}"/>
+                                                </div>
+                                            </label>
+        
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name">Nom</label>
+                                            <input type="text" class="form-control" id="name" name="name" value="{{ request.session.user.name}}" aria-describedby="textHelp">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="lastname">Prénom</label>
+                                            <input type="text" class="form-control" id="lastname" value="{{ request.session.user.lastname}}" name="lastname" aria-describedby="textHelp">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">Email</label>
+                                            <input type="text" class="form-control" id="email" name="email" value="{{ request.session.user.email}}" aria-describedby="textHelp">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="phone">Numero Tél.</label>
+                                            <input type="text" class="form-control" id="phone" name="phone" value="{{ request.session.user.phone}}" aria-describedby="textHelp">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="matricule">Matricule</label>
+                                            <input type="text" class="form-control" id="matricule" value="{{ request.session.user.matricule}}" name="matricule" aria-describedby="textHelp">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="username">Pseudo</label>
+                                            <input type="text" class="form-control" id="username" value="{{ request.session.user.username}}" name="username" aria-describedby="textHelp">
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="category">Category</label>
+                                            <select class="form-control" id="category" name="category">
+                                                <option {% if request.session.user.category == "A" %} selected {%endif%} value="A">A</option>
+                                                <option {% if request.session.user.category == "B" %} selected {%endif%} value="B">B</option>
+                                                <option {% if request.session.user.category == "C" %} selected {%endif%} value="C">C</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-info">Modifier</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
+                                    <div class="container-fluid mt-5"  style="overflow-y: auto; height: 100%;" >
+                                        <input type="hidden" value="{{ request.session.user.id}}" name="id" />
+                                        <div class="form-group">
+                                            <label for="name">Ancien mot de passe</label>
+                                            <input type="password" class="form-control" id="name" name="name" aria-describedby="textHelp">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="password">Nouveau mot de passe</label>
+                                            <input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="textHelp">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="password">Confirmation</label>
+                                            <input type="text" class="form-control" id="email" name="email" aria-describedby="textHelp">
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-info">Modifier</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                    
+                </div>
+               
+                 <!-- Modal -->
+                <div id="modal_aside_right" class="modal fixed-left fade" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-dialog-aside" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header  text-center font-weight-bold">
+                            <h5 class="modal-title">Information etudiant</h5>
+                            <button type="button" class="text-white close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                           <div class="row justify-content-center my-3">
+                                <div class="col text-center">
+                                    <img class="img-fluid img-responsive" width="100" height="100" src="/static/assets/logo.png" />
+                                </div>
+                           </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
+                            <button type="button" class="btn btn-info">Modifier</button>
+                        </div>
+                        </div>
+                    </div>
+                </div> 
+                <!-- modal.// -->
+            </div>
+        </div>
+    </div>
+
+   
+{% endblock %}

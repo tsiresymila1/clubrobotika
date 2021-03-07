@@ -1,0 +1,563 @@
+@font-face {
+    font-family: 'ABeeZee';
+    font-style: normal;
+    font-weight: normal;
+    src: url('../fonts/ABeeZee-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Montserrat Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat Regular'), url('../fonts/Montserrat-Regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat Italic'), url('../fonts/Montserrat-Italic.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat Thin';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat Thin'), url('../fonts/Montserrat-Thin.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat Thin Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat Thin Italic'), url('../fonts/Montserrat-ThinItalic.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat ExtraLight';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat ExtraLight'), url('../fonts/Montserrat-ExtraLight.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat ExtraLight Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat ExtraLight Italic'), url('../fonts/Montserrat-ExtraLightItalic.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat Light';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat Light'), url('../fonts/Montserrat-Light.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat Light Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat Light Italic'), url('../fonts/Montserrat-LightItalic.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat Medium';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat Medium'), url('../fonts/Montserrat-Medium.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat Medium Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat Medium Italic'), url('../fonts/Montserrat-MediumItalic.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat SemiBold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat SemiBold'), url('../fonts/Montserrat-SemiBold.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat SemiBold Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat SemiBold Italic'), url('../fonts/Montserrat-SemiBoldItalic.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat Bold'), url('../fonts/Montserrat-Bold.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat Bold Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat Bold Italic'), url('../fonts/Montserrat-BoldItalic.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat ExtraBold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat ExtraBold'), url('Montserrat-ExtraBold.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat ExtraBold Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat ExtraBold Italic'), url('../fonts/Montserrat-ExtraBoldItalic.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat Black';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat Black'), url('../fonts/Montserrat-Black.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat Black Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Montserrat Black Italic'), url('../fonts/Montserrat-BlackItalic.woff') format('woff');
+}
+
+
+/* SIDE BAR */
+
+
+/* Grow */
+
+.hvr-grow {
+    display: inline-block;
+    vertical-align: middle;
+    transform: translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    backface-visibility: hidden;
+    -moz-osx-font-smoothing: grayscale;
+    transition-duration: 0.3s;
+    transition-property: transform;
+}
+
+.hvr-grow:hover,
+.hvr-grow:focus,
+.hvr-grow:active {
+    transform: scale(1.1);
+}
+
+#sidebar-wrapper {
+    z-index: 999;
+    position: fixed;
+    min-height: 100vh;
+    min-width: 200px !important;
+    width: 14vw;
+    margin-left: -13rem;
+    -webkit-transition: margin .3s ease-out;
+    -moz-transition: margin .3s ease-out;
+    -o-transition: margin .3s ease-out;
+    transition: margin .3s ease-out;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15)!important;
+    border-right: none !important;
+}
+
+.navbar {
+    box-shadow: 0 .5rem 1rem -10px rgba(0, 0, 0, .15)!important;
+}
+
+#sidebar-wrapper .sidebar-heading {
+    padding: 20px 1.25rem;
+    font-size: 13px;
+    ;
+}
+
+#sidebar-wrapper .list-group {
+    width: 100%;
+    margin: 00px;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    margin-left: 100px;
+}
+
+#wrapper.toggled #page-content-wrapper {
+    margin-left: 0px;
+}
+
+@media (min-width: 768px) {
+    #sidebar-wrapper {
+        margin-left: 0px;
+    }
+    #page-content-wrapper {
+        min-width: 0;
+        width: 100%;
+        -webkit-transition: margin .3s ease-out;
+        -moz-transition: margin .3s ease-out;
+        -o-transition: margin .3s ease-out;
+        transition: margin .3s ease-out;
+    }
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: min(-14vw, -200px);
+    }
+    #wrapper #page-content-wrapper {
+        margin-left: max(14vw, 200px);
+    }
+    #wrapper .toggled #page-content-wrapper {
+        opacity: 0.5;
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    #sidebar-wrapper {
+        margin-left: -15.4rem;
+    }
+    #page-content-wrapper {
+        min-width: 0;
+        width: 100%;
+    }
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: 0;
+    }
+    #wrapper .toggled #page-content-wrapper {
+        opacity: 0.4;
+        margin-left: 0;
+        opacity: 0.5;
+    }
+    #wrapper .toggled #admin-content {
+        opacity: 0.5;
+    }
+}
+
+.sidebar-wrapper>a:hover {
+    background-color: #0abeaf;
+}
+
+
+/* END SIDEBAR */
+
+.navbar {
+    height: 60px;
+    box-shadow: inset 1px 1px #eeeeee;
+}
+
+.modal-body {
+    overflow-y: auto;
+}
+
+html,
+body {
+    height: 100%;
+    font-family: 'ABeeZee';
+    overflow-x: hidden;
+    font-size: 13px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* THEME  */
+
+.text-theme-color {
+    color: #eb5858;
+}
+
+.bg-theme-color {
+    color: white;
+    background-color: #dd4b39;
+}
+
+.color-c1 {
+    color: #F6821F
+}
+
+.color-c2 {
+    color: #b46969a9
+}
+
+.color-c3 {
+    color: #FCAE18;
+}
+
+.bg-c1 {
+    background-color: #00a65a;
+    color: white;
+}
+
+.bg-c2 {
+    background-color: #b46969a9;
+    color: white;
+}
+
+.bg-c3 {
+    background-color: #f39c12;
+    color: white;
+}
+
+
+/* c1 = #F6821F
+c2 = #F7952A
+c3 = #FCAE18
+c4 = #FFE682
+c5 = #FE0000
+c6 = #0ABEAF */
+
+.body {
+    background-image: url('../assets/bg.jpg');
+    background-position: center;
+    background-size: cover;
+}
+
+.btn-theme {
+    color: white;
+    background-color: #eb5858;
+}
+
+.btn-theme:active,
+.btn-theme:hover,
+.btn-theme:focus {
+    opacity: 0.8 !important;
+    color: #ffffffff !important;
+}
+
+
+/* Modal */
+
+.modal .modal-dialog-aside {
+    width: 400px;
+    max-width: 80%;
+    height: 100%;
+    margin: 0;
+    transform: translate(0);
+    transition: transform .2s;
+}
+
+.modal .modal-dialog-aside .modal-content {
+    height: inherit;
+    border: 0;
+    border-radius: 0;
+}
+
+.modal .modal-dialog-aside .modal-content .modal-body {
+    overflow-y: auto
+}
+
+.modal.fixed-left .modal-dialog-aside {
+    margin-left: auto;
+    transform: translateX(100%);
+}
+
+.modal.fixed-right .modal-dialog-aside {
+    margin-right: auto;
+    transform: translateX(-100%);
+}
+
+.modal.show .modal-dialog-aside {
+    transform: translateX(0);
+}
+
+
+/* width */
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+
+/* Track */
+
+ ::-webkit-scrollbar-track {
+    background: #e0e0e0;
+}
+
+
+/* Handle */
+
+ ::-webkit-scrollbar-thumb {
+    background: rgb(236, 236, 236);
+}
+
+
+/* Handle on hover */
+
+ ::-webkit-scrollbar-thumb:hover {
+    background: rgb(197, 197, 197);
+}
+
+
+/* Custom bootstrap */
+
+input.form-control {
+    border-radius: 0 !important;
+    border: 1px solid #f0f0f0f5 !important;
+    /* box-shadow : 0 .5rem 0.5rem -5px rgba(0,0,0,.1)!important; */
+}
+
+input.search-control {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 0.9rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: none i !important;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    border-radius: 20px !important;
+}
+
+.card,
+.btn,
+.breadcrumb {
+    border-radius: 0!important;
+}
+
+.list-group .list-group-item {
+    height: 50px;
+    vertical-align: middle;
+}
+
+.list-group a:hover,
+.list-group a.active {
+    background-color: #eb5858;
+    color: #f5f5f5;
+    border-bottom: 1px inset #f5f5f5;
+}
+
+.list-group .list-group-item {
+    border: none !important;
+}
+
+.shadow-theme {
+    box-shadow: -0.5px -0.5px 1px 1px rgba(255, 255, 255, 0.8), 2px 2px 1px -1px rgba(0, 0, 0, 0.2), -2px 2px 1px -1px rgba(0, 0, 0, 0.2) !important;
+}
+
+body {
+    background-color: #fcfcfc;
+    height: 100%;
+}
+
+.card-theme {
+    border: 1px;
+}
+
+.card .card-footer {
+    border-top: none !important;
+}
+
+.dashbord-title {
+    font-weight: 600px;
+}
+
+.card-radius-5 {
+    border-radius: 5px !important;
+}
+
+.card-radius-1 {
+    border-radius: 2px !important;
+}
+
+.card {
+    box-shadow: -2px -2px -2px rgb(0, 0, 0), 2px 2px 2px -1px rgba(0, 0, 0, 0.2) !important;
+    /* box-shadow: 1px 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%); */
+}
+
+.card-red {
+    border-top: 3px outset #eb585885;
+}
+
+.card-teal {
+    border-top: 3px outset #17a3b8a4;
+}
+
+.card .card-header {
+    background-color: #ffffff !important;
+    border-bottom: none !important;
+}
+
+.card .card-header-bg-red {
+    background-color: #ca1f1fc5 !important;
+    color: #ffffff;
+}
+
+.card .card-header-bg-teal {
+    background-color: #17a2b8 !important;
+    color: #ffffff;
+}
+
+.btn-link {
+    color: #eb5858 !important;
+    font-weight: bold;
+}
+
+.btn-link:hover {
+    color: #eb7676 !important;
+    text-decoration: none !important;
+}
+
+.breadcrumb {
+    background-color: #ffffff !important;
+    border-top: 3px outset #17a2b8;
+    border-radius: 5px 5px 5px 5px !important;
+    /* color: #fff;
+    background-color: #17a2b8;
+    border-color: #17a2b8; */
+}
+
+.fixed-left .modal-header {
+    background-color: #eb5858;
+    color: #ffffff;
+}
+
+
+/* END THEME */
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    background: red;
+    cursor: inherit;
+    display: block;
+}
+
+input[readonly] {
+    background-color: white !important;
+    cursor: text !important;
+}
+
+/* Profile */
+
+.profile-border {
+    width: 110px;
+    height: 110px;
+    border: 3px inset #d8d0d0;
+    border-radius: 55px;
+    text-align: center;
+    padding-top: 3px;
+    justify-content: center
+}

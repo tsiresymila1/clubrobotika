@@ -1,0 +1,290 @@
+{% extends "../../layouts/admin.html" %}
+
+{% block admin_content %}
+    <!-- Page content -->
+    <div class="container-fluid" style="margin-top:20px;">
+        <nav class="d-flex title-dash  " aria-label="breadcrumb">
+            <ol class="breadcrumb mt-2 mb-2 w-100 py-3 shadow-theme">
+                <li class="breadcrumb-item">
+                    <a href="#">Admin</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Coachs</li>
+            </ol>
+        </nav>
+        <div class="container-fluid">
+            <div class="row justify-content-md-start justify-content-sm-center mb-3">
+                <div class="col-md-3 col-sm-12 p-3">
+                    <input type="text" class="form-control search-control" placeholder="Recherche" >
+                </div>
+                <div class="col-md-2 col-sm-12 p-3 text-right">
+                    <a href="#addCoach" data-toggle="modal" class="btn btn-info">
+                        <i class="fa fa-user-plus"></i> Nouveau</a>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 col-col-sm-12 m-0 p-0">
+                    <div class="card shadow-theme  card-theme card-radius-5">
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button">
+                                List des Coachs
+                                </button>
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-responsive-lg table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">id</th>
+                                        <th scope="col">Profile</th>
+                                        <th scope="col">Pseudo</th>
+                                        <th scope="col">Matricule</th>
+                                        <th scope="col">Catégorie</th>
+                                        <th scope="col">Nom et Prénom</th>
+                                        <th scope="col">E-mail</th>
+                                        <th scope="col">Numero Tél</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for coach in coachs %}
+                                    <tr>
+                                        <th scope="row">{{coach.id}}</th>
+                                        <td><img src="/static/assets/profile/{{coach.image}}" class="rounded-circle" height="60" width="60" /> </td>
+                                         <th scope="row">{{coach.username}}</th>
+                                        <td>{{coach.matricule}}</td>
+                                        <td>{{coach.category}}</td>
+                                        <td>{{coach.name}} {{coach.lastname}}</td>
+                                        <td>{{coach.email}}</td>
+                                        <td>{{coach.phone}}</td>
+                                        <td class="d-flex justify-content-evenly">
+                                            <a href="/coach/badge/{{coach.id}}" class="btn btn-success m-1" target="_blank" >
+                                                <i class="fa fa-address-book"></i> Badge</a>
+                                            <a type="button" class="btn btn-info m-1"  onclick='editcoach(this,{{coach | dump}})'>
+                                                <i class="fa fa-edit"></i> Edit</a>
+                                            {% if coach.role != "superadmin"%}
+                                            <a type="button" class="btn btn-danger m-1" onclick='deletecoach(this,{{coach | dump}})' >
+                                                <i class="fa fa-trash"></i> Suppr.</a>
+                                            {%endif%}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal add-->
+        <div class="modal fade" id="addCoach" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg  modal-dialog-scrollable modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <form action="/coach/add" method="post" enctype="multipart/form-data">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Nouveau Coach</h5>
+                            <button type="button" class="close text-theme-color" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                         <div class="modal-body " style="overflow-y: hidden; height: calc(100vh - 15rem);">
+                            <div class="container-fluid"  style="overflow-y: auto; height: 100%;" >
+                                <div class="row justify-content-center">
+                                    <input type="file" class="d-none form-control" onchange="readURL(this)" id="file" name="file" accept="image/gif, image/jpeg, image/png, image/jpg" aria-describedby="textHelp">
+                                    <label for="file">
+                                        <div  style="border:1px inset #E2E2E2F1;padding:10px;">
+                                            <img width="100" height="100" src="/static/assets/logo.png"/>
+                                        </div>
+                                    </label>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">Nom</label>
+                                    <input type="text" class="form-control" id="name" name="name" aria-describedby="textHelp">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastname">Prénom</label>
+                                    <input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="textHelp">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="text" class="form-control" id="email" name="email" aria-describedby="textHelp">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Numero Tél.</label>
+                                    <input type="text" class="form-control" id="phone" name="phone" aria-describedby="textHelp">
+                                </div>
+                                <div class="form-group">
+                                    <label for="matricule">Matricule</label>
+                                    <input type="text" class="form-control" id="matricule" name="matricule" aria-describedby="textHelp">
+                                </div>
+                                <div class="form-group">
+                                    <label for="username">Pseudo</label>
+                                    <input type="text" class="form-control" id="username" name="username" aria-describedby="textHelp">
+                                </div>
+                                {% if coach.role != "superadmin"%}
+                                <div class="form-group">
+                                    <label for="password">Mot de passe</label>
+                                    <input type="password" class="form-control" id="password" name="password" aria-describedby="textHelp">
+                                </div>
+                                {%endif%}
+                                <div class="form-group">
+                                    <label for="category">Category</label>
+                                    <select class="form-control" id="category" name="category">
+                                        <option value="A">A</option>
+                                        <option value="B">B</option>
+                                        <option value="C">C</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-info">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- Modal edit-->
+        <div class="modal fade" id="modalEditCoach" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <form action="/coach/update" method="post" enctype="multipart/form-data">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Modifier Coach</h5>
+                            <button type="button" class="close text-theme-color" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body " style="overflow-y: hidden; height: calc(100vh - 15rem);">
+                            <div class="container-fluid"  style="overflow-y: auto; height: 100%;" >
+                                <input type="hidden" id="ed_id" name="id" />
+                                <div class="row justify-content-center">
+                                    <input type="file" class="d-none form-control" onchange="readURL(this)" id="ed_file" name="file" accept="image/gif, image/jpeg, image/png, image/jpg" aria-describedby="textHelp">
+                                    <label for="ed_file">
+                                        <div  style="border:1px inset #E2E2E2F1;padding:10px;">
+                                            <img width="100" id="ed_bash"  height="100" src="/static/assets/logo.png"/>
+                                        </div>
+                                    </label>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">Nom</label>
+                                    <input type="text" class="form-control" id="ed_name" name="name" aria-describedby="textHelp">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ed_lastname">Prénom</label>
+                                    <input type="text" class="form-control" id="ed_lastname" name="lastname" aria-describedby="textHelp">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ed_email">Email</label>
+                                    <input type="email" class="form-control" id="ed_email" name="email" aria-describedby="textHelp">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ed_phone">Numero Tél.</label>
+                                    <input type="text" class="form-control" id="ed_phone" name="phone" aria-describedby="textHelp">
+                                </div>
+                                 <div class="form-group">
+                                    <label for="ed_matricule">Matricule</label>
+                                    <input type="text" class="form-control" id="ed_matricule" name="matricule" aria-describedby="textHelp">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ed_username">Pseudo</label>
+                                    <input type="text" class="form-control" id="ed_username" name="username" aria-describedby="textHelp">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ed_password">Mot de passe</label>
+                                    <input type="password" class="form-control" id="ed_password" name="password" aria-describedby="textHelp">
+                                </div>
+                                <div class="form-group">
+                                    <label for="category">Category</label>
+                                    <select class="form-control" id="ed_category" name="category">
+                                        <option value="A">A</option>
+                                        <option value="B">B</option>
+                                        <option value="C">C</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-info">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- Modal delete-->
+        <div class="modal fade" id="deleteCoach" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <form action="/coach/delete" method="post" enctype="multipart/form-data">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Suppression Coach</h5>
+                            <button type="button" class="close text-theme-color" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <input type="hidden" id="de_id" name="id" />
+                                <h6 id="de_title"></h6> 
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-info">Confirmer</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        {# <!-- Modal delete-->
+        <div class="modal modal-md fade" id="showCoach" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <form action="/coach/print" method="post" enctype="multipart/form-data">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Badge Coach</h5>
+                            <button type="button" class="close text-theme-color" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="badge-header ">
+                                <div class="row justify-content-center mt-1 bg-danger  align-middle" style="height:20px;">
+                                    <h5 class="text-white align-middle">
+                                        CLUB ROBOTIKA MADAGASCAR
+                                    </h5>
+                                </div>
+                                <div class="row justify-content-center  align-middle bg-danger">
+                                    <h5 class="text-white align-middle">
+                                        C.R.M
+                                    </h5>
+                                </div>
+                                
+                            </div>
+                            <div class="row justify-content-center badge-body">
+                               
+                            </div>
+                            <div class="row justify-content-center badge-footer">
+                                
+                            </div> 
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-info">Imprimer</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div> #}
+
+    </div>
+
+{% endblock %}
