@@ -17,6 +17,8 @@ module.exports = (sequelize, DataTypes) => {
                 image: DataTypes.STRING,
                 password: DataTypes.STRING,
                 role: DataTypes.STRING,
+                present: DataTypes.INTEGER,
+                missing: DataTypes.INTEGER,
                 createdAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
                 updatedAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
             }, {

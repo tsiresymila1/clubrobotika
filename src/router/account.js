@@ -1,5 +1,5 @@
 var express = require('express')
-import QRCode from 'qrcode';
+const { Op } = require("sequelize");
 const crypto = require('crypto');
 var router = express.Router();
 import db from "../models";
@@ -7,15 +7,17 @@ import badgeCreator from '../core/pdf';
 
 
 router.get('/', function(req, res) {
+    req.session.active = "account";
     db.Coach.findAll({ raw: true, nest: true, }).then((data) => {
-        res.render('admin/coach/account', { coachs: data ,superadmin: req.session.login === "superadmin"});
+        res.render('admin/coach/account', { coachs: data, superadmin: req.session.login === "superadmin" });
     }).catch((error) => {
         res.status(500).send(error);
     });
 });
 
 router.get('/add', function(req, res) {
-    res.render('admin/coach/index',{superadmin: req.session.login === "superadmin"});
+    req.session.active = "account";
+    res.render('admin/coach/index', { superadmin: req.session.login === "superadmin" });
 });
 
 router.post('/update', function(req, res) {
@@ -29,12 +31,25 @@ router.post('/update', function(req, res) {
             delete datajson['file']
             datajson['image'] = imagefile.file.name;
             var id = datajson.id;
-            delete datajson['id']
+            delete datajson['id'];
+            // console.log(datajson, id);
             db.Coach.update(datajson, { where: { id: id } }).then(() => {
-                console.log('Updated')
-                res.redirect('/coach');
+                db.Coach.findOne({
+                    raw: true,
+                    nest: true,
+                    where: {
+                        id: id
+                    }
+                }).then(function(resultat) {
+                    req.session.auth = true;
+                    req.session.user = resultat;
+                    console.log(resultat);
+                    res.redirect('/admin/account');
+                }).catch(function(err) {
+                    res.redirect('/admin/login');
+                })
             }).catch((error) => {
-                console.log('Error');
+                console.log('Error 1');
                 res.send(error).status(500);
             })
 
@@ -43,13 +58,54 @@ router.post('/update', function(req, res) {
         var id = datajson.id;
         delete datajson['id'];
         db.Coach.update(datajson, { where: { id: id } }).then(() => {
-            console.log('Updated')
-            res.redirect('/coach');
+            db.Coach.findOne({
+                raw: true,
+                nest: true,
+                where: {
+
+                    id: id
+                }
+            }).then(function(resultat) {
+                req.session.auth = true;
+                req.session.user = resultat;
+                res.redirect('/admin/account');
+            }).catch(function(err) {
+                res.redirect('/admin/login');
+            })
         }).catch((error) => {
-            console.log('Error');
+            console.log('Error 2');
             res.send(error).status(500);
         });
     }
+});
+
+router.post('/password', function(req, res) {
+    var datajson = req.body;
+    var id = datajson.id;
+    delete datajson['id'];
+    const hash = crypto.createHash('sha256');
+    var hash_password = hash.update(datajson.opassword).digest('hex');
+    if (datajson.password === datajson.cpassword) {
+        console.log(datajson)
+        db.Coach.findOne({
+            where: {
+                [Op.and]: { id: id, password: hash_password }
+            }
+        }).then((data) => {
+            if (data === null) {
+                res.send(data);
+            } else {
+                var hash2 = crypto.createHash('sha256');
+                var newdata = { password: hash2.update(datajson.password).digest('hex') }
+                db.Coach.update(newdata, { where: { id: id } }).then(() => {
+                    res.redirect('/admin/login')
+                })
+            }
+        })
+    } else {
+        res.redirect('/admin/account');
+    }
+
 });
 
 

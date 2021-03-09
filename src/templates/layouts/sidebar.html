@@ -9,30 +9,30 @@
     </div>
     <div class="list-group list-group-flush">
         <a href="/admin"
-            class=" p-3 list-group-item list-group-item-action active"><i
+            class=" p-3 list-group-item list-group-item-action {% if request.session.active == 'dashboard' %} active {% endif %} "><i
                 class="fas fa-server">
             </i> <span class="ml-4">Dashboard</span></a>
 
-        <a href="/student"
-            class="p-3 list-group-item list-group-item-action  <?php echo $isuser ?>"><i
+        <a href="/admin/student"
+            class="p-3 list-group-item list-group-item-action  {% if  request.session.active == 'student' %} active {% endif %}"><i
                 class="fas fa-users">
             </i> <span class="ml-4" >Etudiants</span></a>
         <a href="/programs"
-            class="p-3 list-group-item list-group-item-action <?php echo $isprogram ?>"><i
+            class="p-3 list-group-item list-group-item-action {% if  request.session.active == 'program' %} active {% endif %}"><i
                 class="fas fa-map">
             </i> <span class="ml-4" >Programmes</span></a>
         <a href="/templates"
-            class="p-3 list-group-item list-group-item-action  <?php echo $istemplate ?>">
+            class="p-3 list-group-item list-group-item-action {% if  request.session.active == 'event' %} active {% endif %}">
             <i class="fas fa-briefcase "></i> <span class="ml-4">Evenements</span> </a>
          <a href="/admin/account"
-            class="p-3 list-group-item list-group-item-action <?php echo $ismedia ?>"><i
+            class="p-3 list-group-item list-group-item-action {% if  request.session.active == 'account' %} active {% endif %}"><i
                 class="fas fa-user"></i><span class="ml-4" >Compte</span></a>
         <a href="images"
-            class="p-3 list-group-item list-group-item-action <?php echo $ismedia ?>"><i
+            class="p-3 list-group-item list-group-item-action {% if  request.session.active == 'document' %} active {% endif %}"><i
                 class="fas fa-folder-open"></i><span class="ml-4" >Documents</span></a>
         {% if(request.session.user.role == "superadmin")%}
-         <a href="/coach"
-            class="p-3 list-group-item list-group-item-action <?php echo $ismedia ?>"><i
+         <a href="/admin/coach"
+            class="p-3 list-group-item list-group-item-action {% if  request.session.active == 'coach' %} active {% endif %}"><i
                 class="fas fa-chalkboard-teacher"></i><span class="ml-4" >Coachs</span></a>
         {%endif%}
     </div>

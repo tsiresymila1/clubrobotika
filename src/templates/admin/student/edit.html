@@ -1,0 +1,232 @@
+{% extends "../../layouts/admin.html" %} {% block admin_content %}
+<!-- Page content -->
+<div class="container-fluid" style="margin-top: 20px">
+  <nav class="d-flex title-dash" aria-label="breadcrumb">
+    <ol class="breadcrumb mt-2 mb-2 w-100 py-3 shadow-theme">
+      <li class="breadcrumb-item"><a href="#">Admin</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Etudiants</li>
+    </ol>
+  </nav>
+
+  <div class="container-fluid mt-5">
+    <form action="/admin/student/edit" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="{{student.id}}" />
+      <div class="row mt-5 mb-5">
+        <div class="col-md-6 col-col-sm-12 m-0 p-0">
+          <div
+            class="card card-red shadow-theme border-1 card-theme card-radius-5">
+            <div class="card-header card-header-bg-red" id="headingOne">
+              <h4 class="mb-0">Formation</h4>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label for="matricule">Matricule</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="matricule"
+                  name="matricule"
+                  value="{{student.matricule}}"
+                  aria-describedby="emailHelp"
+                />
+              </div>
+              <div class="form-group">
+                <label for="category">Categorie</label>
+                    <select class="form-control" id="category" name="category">
+                      <option {% if student.category == "A" %} selected {% endif %} name="A">A</option>
+                      <option  {% if student.category == "B" %} selected {% endif %}  name="B">B</option>
+                      <option  {% if student.category == "C" %} selected {% endif %}  name="C">C</option>
+                    </select>
+              </div>
+              <div class="form-group">
+                <label for="motivation">Motivation</label>
+                <textarea
+                  class="form-control"
+                  name="motivation"
+                  id="motivation"
+                  rows="3"
+                >{{student.motivation}}</textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-col-sm-12 mr-0 pr-0">
+          <div
+            class="card card-teal shadow-theme card-theme border-1 card-radius-5">
+            <div class="card-header card-header-bg-teal" id="headingOne">
+              <h4 class="mb-0">Information étudiant</h4>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="isUniv"
+                    id="usiniv1"
+                    value="1"
+                    {% if student.isUniv  %} checked {% endif %} 
+                  />
+                  <label class="form-check-label" for="usiniv1">Oui</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="isUniv"
+                    id="usiniv2"
+                    value="0"
+                    {% if not student.isUniv  %} checked {% endif %} 
+                  />
+                  <label class="form-check-label" for="usiniv2">Non</label>
+                </div>
+                <label for="exampleInputEmail1">Universitaire</label>
+              </div>
+              <div class="form-group">
+                <label for="grade">Grade</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="grade"
+                  name="grade"
+                  aria-describedby="emailHelp"
+                   value="{{student.grade}}" 
+                />
+              </div>
+              <div class="form-group">
+                <label for="field">Parcours/Filiére</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="field"
+                  name="field"
+                  aria-describedby="emailHelp"
+                   value="{{student.field}}" 
+                />
+              </div>
+              <div class="form-group">
+                <label for="school">Ecole</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="school"
+                  name="school"
+                  aria-describedby="emailHelp"
+                   value="{{student.school}}" 
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-6 col-col-sm-12 m-0 p-0">
+          <div
+            class="card card-red shadow-theme border-1 card-theme card-radius-5"
+          >
+            <div class="card-header" id="headingOne">
+              <h4 class="mb-0">Identité</h4>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label for="name">Nom</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  name="name"
+                  aria-describedby="emailHelp"
+                   value="{{student.name}}" 
+                />
+              </div>
+              <div class="form-group">
+                <label for="lastname">Prénom</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="lastname"
+                  name="lastname" 
+                  value="{{student.lastname}}" 
+                  aria-describedby="emailHelp"
+                />
+              </div>
+              <div class="form-group">
+                <label for="birthday">Date de naissance</label>
+                <input
+                  type="text"
+                  name="birthday"
+                  class="form-control"
+                  id="birthday"
+                  aria-describedby="emailHelp"
+                   value="{{student.birthday}}" 
+                />
+              </div>
+              <div class="form-group">
+                <label for="birthplace">Lieu de Naissance</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="birthplace"
+                  name="birthplace"
+                  aria-describedby="emailHelp"
+                   value="{{student.birthplace}}" 
+                />
+              </div>
+              <div class="form-group">
+                <label for="file">Profile</label>
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <span class="btn btn-info btn-file">
+                            Browse&hellip; <input type="file"  id="file"
+                            name="file" single>
+                        </span>
+                    </span>
+                    <input type="text"  
+                   value="{{student.image}}"  class="form-control" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-col-sm-12 mr-0 pr-0">
+          <div
+            class="card card-red shadow-theme card-theme border-1 card-radius-5"
+          >
+            <div class="card-header" id="headingOne">
+              <h4 class="mb-0">Contact</h4>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  name="email"
+                  aria-describedby="emailHelp"
+                   value="{{student.email}}" 
+                />
+              </div>
+              <div class="form-group">
+                <label for="phone">Téléphone</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="phone"
+                  name="phone"
+                  aria-describedby="emailHelp"    
+                   value="{{student.phone}}" 
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row mt-5 mx-2 justify-content-end">
+            <a href="/admin/student" class="btn btn-danger mx-2">Annuler</a>
+            <button type="submit" class="btn btn-info ùx-2">Submit</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

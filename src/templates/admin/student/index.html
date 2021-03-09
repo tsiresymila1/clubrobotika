@@ -1,0 +1,205 @@
+{% extends "../../layouts/admin.html" %}
+
+{% block admin_content %}
+    <!-- Page content -->
+    <div class="container-fluid" style="margin-top:20px;">
+        <nav class="d-flex title-dash  " aria-label="breadcrumb">
+            <ol class="breadcrumb mt-2 mb-2 w-100 py-3 shadow-theme">
+                <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Etudiants</li>
+            </ol>
+        </nav>
+        <div class="container-fluid">
+            <div class="row justify-content-md-start justify-content-sm-center mb-3 mx-2">
+                <div class="col-md-4 col-sm-12 py-3">
+                    <input type="text" class="form-control search-control" placeholder="Recherche" >
+                </div>
+                
+                <div class="col-md-2 col-sm-12 p-3 text-center">
+                    <div class="form-inline justify-content-center">
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1 pr-2">Categorie</label>
+                            <select class="form-control" id="exampleFormControlSelect1">
+                              <option>A</option>
+                              <option>B</option>
+                              <option>C</option>
+                            </select>
+                          </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-12 p-3 text-center">
+                    <a href="/admin/student/add" class="btn btn-info"><i class="fa fa-user-plus"></i> Nouveau</a>
+                </div>
+                 <div class="col-md-4 col-sm-12 p-3 text-center">
+                    <form method="post" action="/admin/student/excel">
+                    <div class="row">
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <span class="btn btn-secondary btn-file">
+                                    Browse&hellip; <input type="file"  id="file"
+                                    name="file" single required>
+                                </span>
+                            </span>
+                            <input type="text" placeholder="Charger via excel . . ." class="form-control" readonly>
+                            <span class="input-group-addon pl-r"><button type="submit" class="btn btn-success"><i class="fa fa-upload  text-white"></i> Charger</button></span>
+                        </div>
+                       
+                    </div>
+                     </form>
+                </div>
+                 <div class="col-md-2 col-sm-12 p-3 text-center">
+                    
+                </div>
+                
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 m-0 p-0">
+                    <div class="card shadow-theme border-1 card-theme card-radius-5">
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button">
+                                List des etudiant
+                                </button>
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-hover table-bordered table-responsive-lg">
+                                <thead>
+                                    <tr>
+                                    <th>#</th>
+                                    <th scope="col">Matricule</th>
+                                    <th scope="col">Catégorie</th>
+                                    <th scope="col">Nom et Prénom</th>
+                                    <th scope="col">Grade</th>
+                                    <th scope="col">Filière</th>
+                                    <th scope="col">Ecole</th>
+                                    <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for student in students %}
+                                    <tr>
+                                    <td><img src="/static/assets/profile/students/{{student.image}}" class="rounded-circle" height="50" width="50" /> </td>
+                                    <th scope="row">{{ student.matricule}}</th>
+                                    <td>{{ student.category}}</td>
+                                    <td>{{ student.name}} {{ student.lastname}}</td>
+                                    <td>{{ student.grade}}</td>
+                                    <td>{{ student.field}}</td>
+                                    <td>{{ student.school}}</td>
+                                    <td>
+                                         <a type="button" class="btn btn-success m-1" data-toggle="modal" data-target="#modal_aside_right{{student.id}}"><i class="fa fa-eye"></i> Voir</a>
+                                        <a type="button" class="btn btn-info m-1" href="/admin/student/edit/{{student.id}}"><i class="fa fa-edit"></i> Edit</a>
+                                        <a type="button" class="btn btn-danger m-1" data-toggle="modal" data-target="#deleteStudent{{student.id}}"><i class="fa fa-trash"></i> Suppr.</a>
+                                    </td>
+                                    </tr>
+                                    <tr> 
+                                    {% endfor %}          
+                                </tbody>
+                            </table>
+                        </div>
+                       
+                    </div>
+                    
+                </div>
+                 <!-- Modal -->
+                {% for student in students %}
+                <div id="modal_aside_right{{student.id}}" class="modal fixed-left fade" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-dialog-aside" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header  text-center font-weight-bold">
+                            <h5 class="modal-title">Information etudiant</h5>
+                            <button type="button" class="text-white close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                           <div class="row justify-content-center my-3">
+                                 <div class="profile-border">
+                                     <img src="/static/assets/profile/students/{{ student.image}}" width="100" height="100" alt="" class="rounded-circle border-1">
+                                </div>
+                           </div>
+                           <div class="row justify-content-center  mb-2">
+                                <h6>{{ student.lastname}}</h6>
+                            </div>
+                            <div class="row justify-content-center mb-2">
+                                <h6>{{ student.name}}</h6>
+                            </div>
+                            <div class="row justify-content-center mb-2">
+                                <h6 class="font-weight-bold">Catégorie {{ student.category}}</h6>
+                            </div>
+                            <div class="row justify-content-center mb-2">
+                                <h6 class="font-weight-bold">Matricule {{ student.matricule}}</h6>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Grade
+                                <span class="badge badge-info badge-pill">{{student.grade}}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Filiére/Parcours
+                                <span class="badge badge-info badge-pill">{{student.field}}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Ecole
+                                <span class="badge badge-info badge-pill">{{student.school}}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Numero tél
+                                <span class="badge badge-info badge-pill">{{student.phone}}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Email
+                                <span class="badge badge-info badge-pill">{{student.email}}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Nombre de présence
+                                <span class="badge badge-success badge-pill">14</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Nombre d'absence
+                                <span class="badge badge-danger badge-pill">2</span>
+                                </li>
+                                
+                              </ul> 
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
+                            <a type="button" class="btn btn-info" href="/admin/student/edit/{{student.id}}">Modifier</a>
+                        </div>
+                        </div>
+                    </div>
+                </div> 
+                 <!-- Modal delete-->
+                <div class="modal fade" id="deleteStudent{{student.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <form action="/admin/student/delete" method="post">
+                                <input type="hidden" name="id" value="{{student.id}}" />
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Suppression Etudiant</h5>
+                                    <button type="button" class="close text-theme-color" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="container-fluid">
+                                        <h6 id="de_title">Comfirmer vous la suppression de l'étudiant  <b> {{ student.name}} {{ student.lastname}} </b> avec matricule  <b>{{ student.matricule}}</b> </h6> 
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-info">Confirmer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                {% endfor %}  
+            </div>
+        </div>
+    </div>
+
+   
+{% endblock %}

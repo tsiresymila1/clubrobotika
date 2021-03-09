@@ -1,4 +1,4 @@
-{% extends "../layouts/admin.html" %} {% block admin_content %}
+{% extends "../../layouts/admin.html" %} {% block admin_content %}
 <!-- Page content -->
 <div class="container-fluid" style="margin-top: 20px">
   <nav class="d-flex title-dash" aria-label="breadcrumb">
@@ -9,7 +9,7 @@
   </nav>
 
   <div class="container-fluid mt-5">
-    <form action="/student/add" method="post" enctype="multipart/form-data">
+    <form action="/admin/student/add" method="post" enctype="multipart/form-data">
       <div class="row mt-5 mb-5">
         <div class="col-md-6 col-col-sm-12 m-0 p-0">
           <div
@@ -60,7 +60,7 @@
                   <input
                     class="form-check-input"
                     type="radio"
-                    name="isuniv"
+                    name="isUniv"
                     id="usiniv1"
                     value="1"
                   />
@@ -70,7 +70,7 @@
                   <input
                     class="form-check-input"
                     type="radio"
-                    name="isuniv"
+                    name="isUniv"
                     id="usiniv2"
                     value="0"
                   />
@@ -162,12 +162,12 @@
                 />
               </div>
               <div class="form-group">
-                <label for="image">Profile</label>
+                <label for="file">Profile</label>
                 <div class="input-group">
                     <span class="input-group-btn">
-                        <span class="btn btn-primary btn-file">
-                            Browse&hellip; <input type="file"  id="image"
-                            name="image" single>
+                        <span class="btn btn-info btn-file">
+                            Browse&hellip; <input type="file"  id="file"
+                            name="file" single>
                         </span>
                     </span>
                     <input type="text" class="form-control" readonly>
@@ -207,7 +207,7 @@
             </div>
           </div>
           <div class="row mt-5 mx-2 justify-content-end">
-            <a href="/student" class="btn btn-danger mx-2">Annuler</a>
+            <a href="/admin/student" class="btn btn-danger mx-2">Annuler</a>
             <button type="submit" class="btn btn-info ùx-2">Submit</button>
           </div>
         </div>

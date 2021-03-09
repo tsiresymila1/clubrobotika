@@ -84,7 +84,7 @@
         <div class="modal fade" id="addCoach" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-lg  modal-dialog-scrollable modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <form action="/coach/add" method="post" enctype="multipart/form-data">
+                    <form action="/admin/coach/add" method="post" enctype="multipart/form-data">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLongTitle">Nouveau Coach</h5>
                             <button type="button" class="close text-theme-color" data-dismiss="modal" aria-label="Close">
@@ -96,7 +96,7 @@
                                 <div class="row justify-content-center">
                                     <input type="file" class="d-none form-control" onchange="readURL(this)" id="file" name="file" accept="image/gif, image/jpeg, image/png, image/jpg" aria-describedby="textHelp">
                                     <label for="file">
-                                        <div  style="border:1px inset #E2E2E2F1;padding:10px;">
+                                        <div  style="border:2px solid #E2E2E2F1;padding:10px;">
                                             <img width="100" height="100" src="/static/assets/logo.png"/>
                                         </div>
                                     </label>
@@ -154,7 +154,7 @@
         <div class="modal fade" id="modalEditCoach" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <form action="/coach/update" method="post" enctype="multipart/form-data">
+                    <form action="/admin/coach/update" method="post" enctype="multipart/form-data">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLongTitle">Modifier Coach</h5>
                             <button type="button" class="close text-theme-color" data-dismiss="modal" aria-label="Close">
@@ -167,7 +167,7 @@
                                 <div class="row justify-content-center">
                                     <input type="file" class="d-none form-control" onchange="readURL(this)" id="ed_file" name="file" accept="image/gif, image/jpeg, image/png, image/jpg" aria-describedby="textHelp">
                                     <label for="ed_file">
-                                        <div  style="border:1px inset #E2E2E2F1;padding:10px;">
+                                        <div  style="border:2px solid #E2E2E2F1;padding:10px;">
                                             <img width="100" id="ed_bash"  height="100" src="/static/assets/logo.png"/>
                                         </div>
                                     </label>
@@ -223,7 +223,7 @@
         <div class="modal fade" id="deleteCoach" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <form action="/coach/delete" method="post" enctype="multipart/form-data">
+                    <form action="/admin/coach/delete" method="post" enctype="multipart/form-data">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLongTitle">Suppression Coach</h5>
                             <button type="button" class="close text-theme-color" data-dismiss="modal" aria-label="Close">

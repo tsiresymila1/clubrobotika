@@ -7,17 +7,20 @@ import badgeCreator from '../core/pdf';
 
 
 router.get('/', function(req, res) {
+    req.session.active = "coach";
     db.Coach.findAll({ raw: true, nest: true, }).then((data) => {
-        res.render('admin/coach/index', { coachs: data ,superadmin: req.session.login === "superadmin"});
+        res.render('admin/coach/index', { coachs: data, superadmin: req.session.login === "superadmin" });
     }).catch((error) => {
         res.status(500).send(error);
     });
 });
 router.get('/add', function(req, res) {
-    res.render('admin/coach/index',{superadmin: req.session.login === "superadmin"});
+    req.session.active = "coach";
+    res.render('admin/coach/index', { superadmin: req.session.login === "superadmin" });
 });
 
-router.get('/badge/:id', function(req, res){
+router.get('/badge/:id', function(req, res) {
+    req.session.active = "coach";
     db.Coach.findOne({ where: { id: req.params.id }, raw: true, nest: true }).then((coach) => {
         var qrfile = __dirname + '/../public/assets/qrcode.png';
         QRCode.toFile(qrfile, coach.matricule, {
@@ -27,8 +30,8 @@ router.get('/badge/:id', function(req, res){
             },
             version: 5
         }, function(error) {
-            if(error) res.status(500).send(error);
-            badgeCreator(res,coach,qrfile);
+            if (error) res.status(500).send(error);
+            badgeCreator(res, coach, qrfile);
         });
     }).catch((error) => {
         console.log('Here e1')
@@ -40,7 +43,7 @@ router.get('/badge/:id', function(req, res){
 router.post('/add', function(req, res) {
     var imagefile = req.files.file;
     var uploadPath = __dirname + '/../public/assets/profile/' + imagefile.name;
-    
+
     imagefile.mv(uploadPath, function(err) {
         if (err) return res.status(500).send(err);
         var datajson = req.body;
@@ -51,7 +54,7 @@ router.post('/add', function(req, res) {
         datajson['password'] = hash_password;
         // datajson['role'] = 'superadmin';
         db.Coach.create(datajson).then((rep) => {
-            res.redirect('/coach');
+            res.redirect('/admin/coach');
         }).catch((error) => {
             return res.status(500).send(error);
         });
@@ -72,7 +75,7 @@ router.post('/update', function(req, res) {
             delete datajson['id']
             db.Coach.update(datajson, { where: { id: id } }).then(() => {
                 console.log('Updated')
-                res.redirect('/coach');
+                res.redirect('/admin/coach');
             }).catch((error) => {
                 console.log('Error');
                 res.send(error).status(500);
@@ -84,7 +87,7 @@ router.post('/update', function(req, res) {
         delete datajson['id'];
         db.Coach.update(datajson, { where: { id: id } }).then(() => {
             console.log('Updated')
-            res.redirect('/coach');
+            res.redirect('/admin/coach');
         }).catch((error) => {
             console.log('Error');
             res.send(error).status(500);
@@ -96,7 +99,7 @@ router.post('/delete', function(req, res) {
     db.Coach.destroy({
         where: { id: req.body.id }
     }).then((rep) => {
-        res.redirect('/coach');
+        res.redirect('/admin/coach');
     }).catch((error) => {
         return res.status(500).send(error);
     });
