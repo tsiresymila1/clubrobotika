@@ -13,7 +13,6 @@ router.post('/login', function(req, res) {
     var data = req.body;
     const hash = crypto.createHash('sha256');
     var hash_password = hash.update(data.password).digest('hex');
-    console.log(data)
     db.Coach.findOne({
         raw: true,
         nest: true,
@@ -24,6 +23,7 @@ router.post('/login', function(req, res) {
             }
         }
     }).then(function(resultat) {
+        console.log(resultat);
         if (resultat === null) {
             res.redirect('/admin/login');
         } else {

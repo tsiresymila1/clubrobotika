@@ -23,7 +23,7 @@ function editcoach(e, coach) {
     $('#ed_matricule').val(coach.matricule);
     $('#ed_username').val(coach.username);
     $('#ed_password').val(coach.password);
-    $(`#ed_category option[value=${coach.category}]`).attr('selected', 'selected');
+    $(`#ed_category option[value='${coach.category}]'`).attr('selected', 'selected');
     $('#modalEditCoach').modal();
 }
 

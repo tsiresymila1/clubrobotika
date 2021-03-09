@@ -44,7 +44,7 @@ module.exports = (res,user,qrcode,callback) =>{
     width :60,
     })
     .text(user.name,60,60,{
-    width :105,
+    width :205,
     });
     
     doc.fontSize(9)
@@ -53,14 +53,14 @@ module.exports = (res,user,qrcode,callback) =>{
     width :60,
     })
     .text(user.lastname,60,75,{
-    width :105,
+    width :205,
     });
     doc.fontSize(9)
     .fill('#161616')
     .text("Matricule : ",10,90,{
     width :60,
     })
-    .text(user.matricule,60,90,{
+    .text(user.matricule,60,90,{ 
     width :105,
     });
     
