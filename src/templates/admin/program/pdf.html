@@ -1,7 +1,7 @@
 {% extends "../../layouts/admin.html" %} {% block admin_content %}
 <!-- Page content -->
 {% block style %}
-<link rel="stylesheet" href="/static/pdfjs-dist/web/pdf_viewer.css"> {% endblock %}
+<link rel="stylesheet" href="/static/pdfjs/web/pdf_viewer.css"> {% endblock %}
 <div class="container-fluid" style="margin-top:20px;">
 
     <div class="container-fluid">
@@ -34,8 +34,8 @@
 
 
 {% endblock %} {% block script %}
-<script src="/static/pdfjs-dist/build/pdf.js"></script>
-<script src="/static/pdfjs-dist/web/pdf_viewer.js"></script>
+<script src="/static/pdfjs/build/pdf.js"></script>
+<script src="/static/pdfjs/web/pdf_viewer.js"></script>
 
 
 <script id="script">
@@ -43,12 +43,12 @@
 
     if (!pdfjsLib.getDocument || !pdfjsViewer.PDFPageView) {
         // eslint-disable-next-line no-alert
-        alert("Please build the pdfjs-dist library using\n  `gulp dist-install`");
+        alert("Please build the pdfjs library using\n  `gulp dist-install`");
     }
     var DEFAULT_URL = '/static/test.pdf';
-    pdfjsLib.GlobalWorkerOptions.workerSrc = '/static/pdfjs-dist/build/pdf.worker.js';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '/static/pdfjs/build/pdf.worker.js';
 
-    var CMAP_URL = "/static/pdfjs-dist/cmaps/";
+    var CMAP_URL = "/static/pdfjs/cmaps/";
     var CMAP_PACKED = true;
     var PAGE_TO_VIEW = 1;
     var SCALE = 1.0;
