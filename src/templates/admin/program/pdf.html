@@ -1,0 +1,138 @@
+{% extends "../../layouts/admin.html" %} {% block admin_content %}
+<!-- Page content -->
+{% block style %}
+<link rel="stylesheet" href="/static/pdfjs-dist/web/pdf_viewer.css"> {% endblock %}
+<div class="container-fluid" style="margin-top:20px;">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 mb-2">
+                <div class="card shadow-theme border-1 card-theme card-radius-5">
+                    <div class="card-body">
+                        <div class="row justify-content-between mx-2">
+                            <span>This is some text within a card body.</span>
+                            <span> Zoom <div class="btn-group mr-2" role="group" aria-label="First group">
+                                <button type="button" class="btn btn-link" onclick="zoomOut()"><i class="fa fa-minus"></i></button>
+                                <button type="button" class="btn btn-link" onclick="zoomIn()"><i class="fa fa-plus"></i></button>
+                              </div></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center" id="pdf-element">
+            <div class="col -12 align-items-center">
+                <div class="card shadow-theme border-1 card-theme card-radius-5">
+                    <div class="card-body d-flex justify-content-center" style=" height: calc(100vh - 130px) !important;">
+                        <div class="" id="pageContainer" style="background-color: white; height: calc(100vh - 148px) !important; position: absolute; overflow-y: scroll;" class="pdfViewer singlePageView"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %} {% block script %}
+<script src="/static/pdfjs-dist/build/pdf.js"></script>
+<script src="/static/pdfjs-dist/web/pdf_viewer.js"></script>
+
+
+<script id="script">
+    "use strict";
+
+    if (!pdfjsLib.getDocument || !pdfjsViewer.PDFPageView) {
+        // eslint-disable-next-line no-alert
+        alert("Please build the pdfjs-dist library using\n  `gulp dist-install`");
+    }
+    var DEFAULT_URL = '/static/test.pdf';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '/static/pdfjs-dist/build/pdf.worker.js';
+
+    var CMAP_URL = "/static/pdfjs-dist/cmaps/";
+    var CMAP_PACKED = true;
+    var PAGE_TO_VIEW = 1;
+    var SCALE = 1.0;
+    // var SCALE = 1.0;
+
+    var container = document.getElementById("pageContainer");
+
+    var eventBus = new pdfjsViewer.EventBus();
+
+    // Loading document.
+    var loadingTask = pdfjsLib.getDocument({
+        url: DEFAULT_URL,
+        cMapUrl: CMAP_URL,
+        cMapPacked: CMAP_PACKED,
+    });
+    loadpdf(loadingTask);
+
+    function zoomOut() {
+        container.innerHTML = "";
+        SCALE = SCALE - 0.1;
+        loadpdf(loadingTask);
+    }
+
+    function zoomIn() {
+        container.innerHTML = "";
+        SCALE = SCALE + 0.1;
+        loadpdf(loadingTask);
+    }
+
+    function loadpdf(loadingTask) {
+        loadingTask.promise.then(function(pdfDocument) {
+            // Document loaded, retrieving the page.
+            var pages = pdfDocument.numPages;
+            for (var page = 1; page <= pages; page++) {
+                // canvas = document.createElement("canvas");
+                // canvas.className = 'pdf-page-canvas';
+                // viewer.appendChild(canvas);
+                renderPage(page, pdfDocument);
+            }
+
+        });
+    }
+
+    function renderPage(page, pdfDocument) {
+        return pdfDocument.getPage(page).then(function(pdfPage) {
+            // Creating the page view with default parameters.
+            var unscaledViewport = pdfPage.getViewport(1);
+            var pdfPageView = new pdfjsViewer.PDFPageView({
+                container,
+                id: PAGE_TO_VIEW,
+                scale: SCALE,
+                defaultViewport: pdfPage.getViewport({
+                    scale: SCALE
+                }),
+                eventBus,
+                // We can enable text/annotations layers, if needed
+                textLayerFactory: new pdfjsViewer.DefaultTextLayerFactory(),
+                annotationLayerFactory: new pdfjsViewer.DefaultAnnotationLayerFactory(),
+            });
+            // Associates the actual page with the view, and drawing it
+            pdfPageView.setPdfPage(pdfPage);
+            return pdfPageView.draw();
+        });
+    }
+
+
+    // var loadingTask = pdfjsLib.getDocument(url);
+    // loadingTask.promise.then(function(pdf) {
+    //     pdf.getPage(1).then(function(page) {
+    //         var scale = 1.5;
+    //         var viewport = page.getViewport({
+    //             scale: scale,
+    //         });
+    //         var canvas = document.getElementById('the-canvas');
+    //         var context = canvas.getContext('2d');
+    //         canvas.height = viewport.height;
+    //         canvas.width = viewport.width;
+    //         var renderContext = {
+    //             canvasContext: context,
+    //             viewport: viewport,
+    //         };
+    //         page.render(renderContext);
+    //     });
+    // });
+    // var container = document.getElementById('pdf-container');
+</script>
+{% endblock %}

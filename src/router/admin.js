@@ -33,6 +33,7 @@ router.post('/login', function(req, res) {
         }
 
     }).catch(function(err) {
+        console.log(err)
         res.redirect('/admin/login');
     })
 });

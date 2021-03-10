@@ -11,6 +11,7 @@ import studentRouter from './router/student';
 import adminRouter from './router/admin';
 import coachRouter from './router/coach';
 import accountRouter from './router/account';
+import programRouter from './router/program';
 
 let app = express();
 
@@ -38,6 +39,7 @@ app.use("/admin", adminRouter);
 app.use("/admin/student", studentRouter);
 app.use("/admin/coach", coachRouter);
 app.use('/admin/account', accountRouter);
+app.use('/admin/program', programRouter);
 
 const expressNunjucks = require('express-nunjucks');
 const isDev = app.get('env') === 'development';

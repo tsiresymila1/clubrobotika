@@ -38,6 +38,11 @@ module.exports = (sequelize, DataTypes) => {
                 as: 'files',
                 foreignKey: 'studentid'
             });
+            this.belongsToMany(models.Program, {
+                through: 'Present',
+                as: 'presents',
+                foreignKey: 'studentid'
+            });
         }
     };
     return Student;

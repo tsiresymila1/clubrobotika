@@ -562,3 +562,10 @@ input[readonly] {
     padding-top: 3px;
     justify-content: center
 }
+
+
+/* PDF */
+
+.modal-content {
+    border-radius: 0 !important;
+}
