@@ -48,10 +48,11 @@
                         </h2>
                     </div>
                     <div class="card-body">
+                        {% for program in programs %}
                         <div class="card my-2">
                             <div class="card-header border-1">
                                 <div class="row justify-content-between mx-2">
-                                    <h4>Title programme</h4>
+                                    <h4>{{ program.title }}</h4>
                                     <div class="form-check">
                                         <input type="checkbox" class="form-check-input" id="exampleCheck1">
                                         <label class="form-check-label" for="exampleCheck1">Terminé</label>
@@ -60,7 +61,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="row mx-2">
-                                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                    <p class="card-text">{{program.description}}</p>
                                 </div>
                                 <ul class="list-group">
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -94,13 +95,14 @@
                                         
                                         <a href="#" class="btn btn-info"> <i class="fa fa-graduation-cap"></i> Presence</a>
                                         {% if request.session.user.role == "superadmin" %}
-                                        <a href="#" class="btn btn-info"> <i class="fa fa-plus"></i> Ajouter fichier</a>
+                                        <a href="#addFile{{program.id}}" data-toggle="modal"  class="btn btn-info"> <i class="fa fa-plus"></i> Ajouter fichier</a>
                                         <a href="#" class="btn btn-danger"> <i class="fa fa-trash"></i>Supprimer</a>
                                         {% endif %}
                                     </span>
                                 </div>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
 
                 </div>
@@ -114,7 +116,7 @@
     <div class="modal fade" id="addProgram" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg  modal-dialog-scrollable modal-dialog-centered" role="document">
             <div class="modal-content">
-                <form action="/admin/proragm/add" method="post" enctype="multipart/form-data">
+                <form action="/admin/program/add" method="post" enctype="multipart/form-data">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">Nouveau Programme</h5>
                         <button type="button" class="close text-theme-color" data-dismiss="modal" aria-label="Close">
@@ -150,6 +152,39 @@
         </div>
         </form>
     </div>
+      <!-- Modal add-->
+    {% for program in programs %}
+     <!-- Modal delete-->
+     <div class="modal fade" id="addFile{{program.id}}" tiabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form action="/admin/program/file/add" method="post" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">AJout des documents</h5>
+                        <button type="button" class="close text-theme-color" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="hidden" name="id" value="{{program.id}}">
+                            <label for="exampleFormControlSelect2">Choisir des fichiers</label>
+                            <select multiple class="form-control" id="files" name="files">
+                                {% for file in files%}
+                                <option value="{{ file.id}}" > {{ file.id}} - {{ file.securename}} [{{ file.type}}]</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-info">Confirmer</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% endfor %}
 
 </div>
 

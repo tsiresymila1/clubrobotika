@@ -1,0 +1,134 @@
+{% extends "../../layouts/admin.html" %} {% block admin_content %}
+<!-- Page content -->
+<div class="container-fluid" style="margin-top:20px;">
+    <nav class="d-flex title-dash  " aria-label="breadcrumb">
+        <ol class="breadcrumb mt-2 mb-2 w-100 py-3 shadow-theme">
+            <li class="breadcrumb-item"><a href="#">Admin</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Programs</li>
+        </ol>
+    </nav>
+    {% if request.session.user.role == "superadmin" %}
+    <div class="container-fluid">
+        <div class="row justify-content-md-start justify-content-sm-center mb-3 mx-2">
+            <div class="col-md-4 col-sm-12 py-3">
+                <input type="text" class="form-control search-control" placeholder="Recherche">
+            </div>
+            <div class="col-md-4 col-sm-12 p-3 text-center">
+                    <form method="post" action="/admin/document/add" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <span class="btn btn-secondary btn-file">
+                                    Browse&hellip; <input type="file"  id="file"
+                                    name="file" single required>
+                                </span>
+                            </span>
+                            <input type="text" placeholder="Charger des documentS . . ." class="form-control" readonly>
+                            <span class="input-group-addon pl-r"><button type="buttol" data-toggle="modal" data-target="#modaleName" class="btn btn-success"><i class="fa fa-upload  text-white"></i> Charger</button></span>
+                        </div>
+                        <!-- Modal dNameelete-->
+                        <div class="modal fade" id="modaleName" tiabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="securename">Etiquette</label>
+                                            <input type="text" class="form-control" id="securename"  name="securename" aria-describedby="emailHelp" required>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-info">Confirmer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     </form>
+                </div>
+            <div class="col-md-2 col-sm-12 p-3 text-center">
+
+            </div>
+
+        </div>
+    </div>
+    {% endif %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 m-0 p-0">
+                <div class="card shadow-theme border-1 card-theme card-radius-5">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button">
+                                Documents
+                                </button>
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Etiquette</th>
+                                <th scope="col">fichier</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Taille</th>
+                                <th scope="col">Option</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for file in files %}
+                                <tr>
+                                <th scope="row">{{file.id}}</th>
+                                <td>{{file.securename}}</td>
+                                <td>{{file.name}}</td>
+                                <td>{{file.type}}</td>
+                                <td>{{file.size}}</td>
+                                <td><a href="#deleteFile{{file.id}}"  data-toggle="modal" class="btn btn-link"> <i class="fa fa-trash"></i></a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal add-->
+    {% for file in files %}
+     <!-- Modal delete-->
+     <div class="modal fade" id="deleteFile{{file.id}}" tiabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form action="/admin/document/delete" method="post" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Suppression document</h5>
+                        <button type="button" class="close text-theme-color" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <input type="hidden" id="de_id" name="id" value="{{file.id}}" />
+                            <h6 id="title"> Confirmez-vous la suppression de dichier <b>{{file.name}}</b> ?</h6> 
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-info">Confirmer</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% endfor %}
+
+</div>
+
+
+{% endblock %}

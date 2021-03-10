@@ -34,6 +34,7 @@
     "pdfkit": "^0.11.0",
     "qrcode": "^1.4.4",
     "sequelize": "^6.5.0",
+    "uuidv4": "^6.2.6",
     "xlsx": "^0.16.9"
   },
   "devDependencies": {

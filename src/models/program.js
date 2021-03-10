@@ -24,11 +24,6 @@ module.exports = (sequelize, DataTypes) => {
                 as: 'files',
                 foreignKey: 'programid'
             });
-            this.belongsToMany(models.Coach, {
-                through: 'CoachPrograms',
-                as: 'coachs',
-                foreignKey: 'programid'
-            });
 
         }
     };

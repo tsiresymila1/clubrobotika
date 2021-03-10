@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
         static init(sequelize) {
             super.init({
                 name: DataTypes.STRING,
+                securename: DataTypes.STRING,
                 type: DataTypes.STRING,
                 size: DataTypes.STRING,
                 createdAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },

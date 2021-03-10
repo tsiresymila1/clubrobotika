@@ -38,38 +38,42 @@ module.exports = (res,user,qrcode,callback) =>{
     width :340,
     align : 'center'
     });  
+    // NOm
     doc.fontSize(9)
     .fill('#161616')
-    .text("Nom : ",10,60,{
+    .text("Nom : ",20,60,{
     width :60,
     })
-    .text(user.name,60,60,{
-    width :205,
+    .text(user.name,80,60,{
+    width :195,
     });
-    
+    // Prénom
     doc.fontSize(9)
     .fill('#161616')
-    .text("Prénom : ",10,75,{
+    .text("Prénom : ",20,75,{
     width :60,
     })
-    .text(user.lastname,60,75,{
-    width :205,
+    .text(user.lastname,80,75,{
+    width :195,
     });
+    // Matricule
     doc.fontSize(9)
     .fill('#161616')
-    .text("Matricule : ",10,90,{
+    .text("Matricule : ",20,90,{
     width :60,
     })
-    .text(user.matricule,60,90,{ 
+    .text(user.matricule,80,90,{ 
     width :105,
     });
     
+    // Categorie
+    
     doc.fontSize(9)
     .fill('#161616')
-    .text("Categorie : ",10,105,{
+    .text("Categorie : ",20,105,{
     width :60,
     })
-    .text(user.category,60,105,{
+    .text(user.category,80,105,{
     width :105,
     });
     
@@ -83,8 +87,8 @@ module.exports = (res,user,qrcode,callback) =>{
     // // Using a standard PDF font
     // logo
     doc.image(
-        __dirname+'/../public/assets/logo.png', 270,
-    30, 
+        __dirname+'/../public/assets/logo.png', 265,
+    40, 
     {
         fit: [60, 60],
         align: 'center',
@@ -92,7 +96,7 @@ module.exports = (res,user,qrcode,callback) =>{
     );
     // petit robot
     doc.image(
-        __dirname+'/../public/assets/robot.jpg', 10,
+        __dirname+'/../public/assets/robot.jpg', 20,
     125, 
     {
         fit: [60, 60],
@@ -101,8 +105,8 @@ module.exports = (res,user,qrcode,callback) =>{
     );
     // photo
     doc.image(
-    __dirname + '/../public/assets/profile/'+user.image, 270,
-    95, 
+    __dirname + '/../public/assets/profile/'+user.image, 265,
+    110, 
     {
         fit: [60, 60],
         align: 'center',
