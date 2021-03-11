@@ -4,6 +4,7 @@ import path from 'path'
 import http from 'http'
 import cookieSession from 'cookie-session'
 var fileUpload = require('express-fileupload');
+var dateFilter = require('nunjucks-date-filter');
 
 import db from "./models";
 import auth from './router/auth';
@@ -53,8 +54,13 @@ var njk = expressNunjucks(app, {
     watch: true,
     cache: false,
 });
+njk.env.addFilter('date', dateFilter);
 
 app.set('engine', njk);
+
+app.get('/', (req, res) => {
+    res.redirect('/admin');
+});
 
 
 let server = http.createServer(app);

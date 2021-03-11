@@ -107,12 +107,16 @@
                             </ul>
                              <div class="tab-content" id="myTabContent">
                                 <div class="tab-pane fade show active" id="activity" role="tabpanel" aria-labelledby="activity-tab">
-
+                                <div class="card">
+                                        <div class="card-body">
+                                          Activité .
+                                        </div>
+                                      </div>
                                 </div>
                                 <div class="tab-pane fade pt-2 pb-2" id="timeline" role="tabpanel" aria-labelledby="timeline-tab">
                                     <div class="card">
                                         <div class="card-body">
-                                          This is some text within a card body.
+                                          Journal
                                         </div>
                                       </div>
                                 </div>
@@ -145,9 +149,10 @@
                                                 <label for="phone">Numero Tél.</label>
                                                 <input type="text" class="form-control" id="phone" name="phone" value="{{ request.session.user.phone}}" aria-describedby="textHelp">
                                             </div>
+                                             {% if request.session.user.role == "superadmin" %}{% endif%}
                                             <div class="form-group">
                                                 <label for="matricule">Matricule</label>
-                                                <input type="text" class="form-control" id="matricule" value="{{ request.session.user.matricule}}" name="matricule" aria-describedby="textHelp">
+                                                <input {% if request.session.user.role != "superadmin" %}readonly{% endif%} type="text" class="form-control" id="matricule" value="{{ request.session.user.matricule}}" name="matricule" aria-describedby="textHelp">
                                             </div>
                                             <div class="form-group">
                                                 <label for="username">Pseudo</label>

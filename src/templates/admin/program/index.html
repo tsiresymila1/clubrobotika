@@ -52,7 +52,10 @@
                         <div class="card my-2">
                             <div class="card-header border-1">
                                 <div class="row justify-content-between mx-2">
-                                    <h4>{{ program.title }}</h4>
+                                    <div class="col">
+                                        <h4>{{ program.numero }}-{{ program.title }}</h4>
+                                        <h6 class="ml-3"> <b>Catégorie {{ program.category }}</b> </h6>
+                                    </div>
                                     <div class="form-check">
                                         <input type="checkbox" class="form-check-input" id="exampleCheck1">
                                         <label class="form-check-label" for="exampleCheck1">Terminé</label>
@@ -64,39 +67,31 @@
                                     <p class="card-text">{{program.description}}</p>
                                 </div>
                                 <ul class="list-group">
+                                    {% for file in program.Files %}
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span><i class="fa fa-folder-open text-info"></i> Cras justo odio</span>
+                                        <span> {% if file.type == 'application/pdf' %}<i class="fa fa-file-pdf text-danger "></i>{% else %} <i class="fa fa-folder-open text-info"></i> {% endif %} {{ file.securename }} - {{ file.type }} </span>
                                         <span>
-                                            <a href="/admin/program/pdf" class="btn-btn-link text-info font-weight-bold mx-1"> <i class="fa fa-eye text-success"></i> Voir </a>
-                                            <a href="/admin/program/pdf" class="btn-btn-link text-info font-weight-bold mx-1"> <i class="fa fa-times text-danger"></i> Suppr </a>
+                                            <a href="/admin/program/view/{{file.id}}" class="btn-btn-link text-info font-weight-bold mx-1"> <i class="fa fa-eye text-success"></i> Voir </a>
+                                            {% if request.session.user.role == "superadmin" or  request.session.user.role == "admin" %}
+                                            <a href="/admin/program/file/remove/{{file.id}}" class="btn-btn-link text-info font-weight-bold mx-1"> <i class="fa fa-times text-danger"></i> Suppr </a>
+                                            {% endif %}
                                         </span>
                                     </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span><i class="fa fa-folder-open text-info"></i> Cras justo odio</span>
-                                        <span>
-                                            <a href="/admin/program/pdf" class="btn-btn-link text-info font-weight-bold mx-1"> <i class="fa fa-eye text-success"></i> Voir </a>
-                                            <a href="/admin/program/pdf" class="btn-btn-link text-info font-weight-bold mx-1"> <i class="fa fa-times text-danger"></i> Suppr </a>
-                                        </span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span><i class="fa fa-folder-open text-info"></i> Cras justo odio</span>
-                                        <span>
-                                            <a href="/admin/program/pdf" class="btn-btn-link text-info font-weight-bold mx-1"> <i class="fa fa-eye text-success"></i> Voir </a>
-                                            <a href="/admin/program/pdf" class="btn-btn-link text-info font-weight-bold mx-1"> <i class="fa fa-times text-danger"></i> Suppr </a>
-                                        </span>
-                                    </li>
+                                    {% endfor %}
+
                                 </ul>
 
                             </div>
                             <div class="card-footer text-muted">
                                 <div class="row justify-content-between mx-2">
-                                    <span>15-06-2021 </span>
+                                    <span>{{ program.date | date('DD-MMM-YYYY')}} </span>
                                     <span>
                                         
-                                        <a href="#" class="btn btn-info"> <i class="fa fa-graduation-cap"></i> Presence</a>
+                                        <a href="#presence{{program.id}}"  data-toggle="modal" class="btn btn-info"> <i class="fa fa-graduation-cap"></i> Presence</a>
                                         {% if request.session.user.role == "superadmin" %}
                                         <a href="#addFile{{program.id}}" data-toggle="modal"  class="btn btn-info"> <i class="fa fa-plus"></i> Ajouter fichier</a>
-                                        <a href="#" class="btn btn-danger"> <i class="fa fa-trash"></i>Supprimer</a>
+                                        <a href="#editProgram{{program.id}}"  data-toggle="modal" class="btn btn-info"> <i class="fa fa-edit"></i>Modifier</a>
+                                        <a href="#deleteProgram{{program.id}}"  data-toggle="modal" class="btn btn-danger"> <i class="fa fa-trash"></i>Supprimer</a>
                                         {% endif %}
                                     </span>
                                 </div>
@@ -126,6 +121,10 @@
                     <div class="modal-body">
                         <div class="container-fluid">
                             <div class="form-group">
+                                <label for="numero">Numero</label>
+                                <input type="text" class="form-control" id="numero" name="numero" aria-describedby="textHelp">
+                            </div>
+                            <div class="form-group">
                                 <label for="title">Titre</label>
                                 <input type="text" class="form-control" id="title" name="title" aria-describedby="textHelp">
                             </div>
@@ -142,6 +141,10 @@
                                     <option value="Jeux Vidéo">Jeux Vidéo</option>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label for="date">Date</label>
+                                <input type="date" class="form-control" id="date" name="date" aria-describedby="textHelp">
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -152,15 +155,66 @@
         </div>
         </form>
     </div>
-      <!-- Modal add-->
+    <!-- Modal add-->
     {% for program in programs %}
-     <!-- Modal delete-->
-     <div class="modal fade" id="addFile{{program.id}}" tiabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <!-- Modal modifier-->
+    <div class="modal fade" id="editProgram{{program.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg  modal-dialog-scrollable modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form action="/admin/program/update" method="post" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Modifier Programme</h5>
+                        <button type="button" class="close text-theme-color" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <input type="hidden" name="id" value="{{program.id}}">
+                            <div class="form-group">
+                                <label for="ed_numero">Numéro</label>
+                                <input type="text" class="form-control" id="ed_numero" value="{{program.numero}}" name="numero" aria-describedby="textHelp">
+                            </div>
+                            <div class="form-group">
+                                <label for="ed_title">Titre</label>
+                                <input type="text" class="form-control" id="ed_title" value="{{program.title}}" name="title" aria-describedby="textHelp">
+                            </div>
+                            <div class="form-group">
+                                <label for="ed_description">Descrption</label>
+                                <textarea type="text" class="form-control" id="ed_description" name="description" aria-describedby="textHelp">{{program.description}}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="ed_category">Category</label>
+                                <select class="form-control" id="ed_category" name="category">
+                                    <option  {% if program.category == "A" %} selected {% endif %} value="A">A</option>
+                                    <option {% if program.category == "B" %} selected {% endif %} value="B">B</option>
+                                    <option {% if program.category == "C" %} selected {% endif %} value="C">C</option>
+                                    <option {% if program.category == "Jeux Vidéo" %} selected {% endif %} value="Jeux Vidéo">Jeux Vidéo</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="ed_date">Date</label>
+                                <input type="date" class="form-control" id="ed_date" name="date" value="{{program.date | date('YYYY-MM-DD') }}" aria-describedby="textHelp">
+                            </div>
+                            <script>
+                            </script>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-info">Save changes</button>
+                    </div>
+            </div>
+        </div>
+        </form>
+    </div>
+    <!-- fin modifier -->
+    <div class="modal fade" id="addFile{{program.id}}" tiabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered" role="document">
             <div class="modal-content">
                 <form action="/admin/program/file/add" method="post" enctype="multipart/form-data">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">AJout des documents</h5>
+                        <h5 class="modal-title" id="exampleModalLongTitle">Ajout des documents</h5>
                         <button type="button" class="close text-theme-color" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -180,8 +234,59 @@
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-info">Confirmer</button>
                     </div>
-                </div>
             </div>
+        </div>
+        </form>
+    </div>
+    <!-- Modal delete-->
+    <div class="modal fade" id="deleteProgram{{program.id}}" tiabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form action="/admin/program/delete" method="post" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Suppression de programme</h5>
+                        <button type="button" class="close text-theme-color" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <input type="hidden" id="de_id" name="id" value="{{program.id}}" />
+                            <h6 id="title"> Confirmez-vous la suppression de programme <b>{{program.title}}</b> pour la catégorie <b>{{ program.category}}</b> ?</h6>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-info">Confirmer</button>
+                    </div>
+            </div>
+        </div>
+        </form>
+    </div>
+    <!-- fin presence -->
+    <div class="modal fade" id="presence{{program.id}}" tiabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form action="/admin/program/present" method="post" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Présence</h5>
+                        <button type="button" class="close text-theme-color" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="hidden" name="id" value="{{program.id}}">
+                            <label for="matricule">Matricule</label>
+                            <input type="text" class="form-control" id="matricule" name="matricule" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-info">Confirmer</button>
+                    </div>
+            </div>
+        </div>
         </form>
     </div>
     {% endfor %}

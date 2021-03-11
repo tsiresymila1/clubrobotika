@@ -1,0 +1,40 @@
+{% extends "../../layouts/admin.html" %} {% block admin_content %}
+<!-- Page content -->
+{% block style %}
+<link rel="stylesheet" href="/static/pdfjs/web/pdf_viewer.css"> {% endblock %}
+<div class="container-fluid" style="margin-top:20px;">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 mb-2">
+                <div class="card shadow-theme border-1 card-theme card-radius-5">
+                    <div class="card-body">
+                        <div class="row justify-content-between mx-2">
+                            <span>{{file.id}} - {{file.securename}}</span>
+                            <span> Zoom <div class="btn-group mr-2" role="group" aria-label="First group">
+                                <button type="button" class="btn btn-link" onclick="zoomOut()"><i class="fa fa-minus"></i></button>
+                                <button type="button" class="btn btn-link" onclick="zoomIn()"><i class="fa fa-plus"></i></button>
+                              </div></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center" id="pdf-element">
+            <div class="col -12 align-items-center">
+                <div class="card shadow-theme border-1 card-theme card-radius-5">
+                    <div class="card-body">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <video controls>
+                                <source type="{{file.type}}" src="{{stream}}" allowfullscreen>
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

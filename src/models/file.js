@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
             });
         }
         static associate(models) {
-
+            this.belongsTo(models.Program);
         }
     };
     return File;

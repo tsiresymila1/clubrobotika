@@ -3,13 +3,12 @@ const { Op } = require("sequelize");
 const crypto = require('crypto');
 var router = express.Router();
 import db from "../models";
-import badgeCreator from '../core/pdf';
 
 
 router.get('/', function(req, res) {
     req.session.active = "account";
     db.Coach.findAll({ raw: true, nest: true, }).then((data) => {
-        res.render('admin/coach/account', { coachs: data, superadmin: req.session.login === "superadmin" });
+        res.render('admin/coach/account', { coachs: data, });
     }).catch((error) => {
         res.status(500).send(error);
     });
@@ -17,7 +16,7 @@ router.get('/', function(req, res) {
 
 router.get('/add', function(req, res) {
     req.session.active = "account";
-    res.render('admin/coach/index', { superadmin: req.session.login === "superadmin" });
+    res.render('admin/coach/index', );
 });
 
 router.post('/update', function(req, res) {

@@ -73,8 +73,8 @@ router.post('/update', function(req, res) {
             datajson['image'] = imagefile.file.name;
             var id = datajson.id;
             delete datajson['id']
-            db.Coach.update(datajson, { where: { id: id } }).then(() => {
-                console.log('Updated')
+            db.Coach.update(datajson, { where: { id: id } }).then((c) => {
+                console.log(c)
                 res.redirect('/admin/coach');
             }).catch((error) => {
                 console.log('Error');
@@ -85,8 +85,8 @@ router.post('/update', function(req, res) {
     } else {
         var id = datajson.id;
         delete datajson['id'];
-        db.Coach.update(datajson, { where: { id: id } }).then(() => {
-            console.log('Updated')
+        db.Coach.update(datajson, { where: { id: id } }).then((c) => {
+            console.log(c)
             res.redirect('/admin/coach');
         }).catch((error) => {
             console.log('Error');

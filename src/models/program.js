@@ -19,11 +19,7 @@ module.exports = (sequelize, DataTypes) => {
             });
         }
         static associate(models) {
-            this.belongsToMany(models.File, {
-                through: 'ProgramFiles',
-                as: 'files',
-                foreignKey: 'programid'
-            });
+            this.hasMany(models.File);
 
         }
     };

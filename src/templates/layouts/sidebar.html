@@ -21,15 +21,17 @@
             class="p-3 list-group-item list-group-item-action {% if  request.session.active == 'program' %} active {% endif %}"><i
                 class="fas fa-map">
             </i> <span class="ml-4" >Programmes</span></a>
-        <a href="/templates"
+        {# <a href="/templates"
             class="p-3 list-group-item list-group-item-action {% if  request.session.active == 'event' %} active {% endif %}">
-            <i class="fas fa-briefcase "></i> <span class="ml-4">Evenements</span> </a>
+            <i class="fas fa-briefcase "></i> <span class="ml-4">Evenements</span> </a> #}
          <a href="/admin/account"
             class="p-3 list-group-item list-group-item-action {% if  request.session.active == 'account' %} active {% endif %}"><i
                 class="fas fa-user"></i><span class="ml-4" >Compte</span></a>
+         {% if(request.session.user.role == "superadmin" or request.session.user.role == "admin" )%}
         <a href="/admin/document"
             class="p-3 list-group-item list-group-item-action {% if  request.session.active == 'document' %} active {% endif %}"><i
                 class="fas fa-folder-open"></i><span class="ml-4" >Documents</span></a>
+        {%endif%}
         {% if(request.session.user.role == "superadmin")%}
          <a href="/admin/coach"
             class="p-3 list-group-item list-group-item-action {% if  request.session.active == 'coach' %} active {% endif %}"><i

@@ -14,9 +14,9 @@
         "dialect": "mysql"
     },
     "production": {
-        "username": "root",
-        "password": null,
-        "database": "clubrobotika",
+        "username": "sutcpsbz_clubrobotika",
+        "password": "clubrobotika",
+        "database": "sutcpsbz_clubrobotikadb",
         "host": "127.0.0.1",
         "dialect": "mysql"
     }

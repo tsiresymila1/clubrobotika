@@ -10,7 +10,7 @@
                 <div class="card shadow-theme border-1 card-theme card-radius-5">
                     <div class="card-body">
                         <div class="row justify-content-between mx-2">
-                            <span>Documetn title</span>
+                            <span>{{file.id}} - {{file.securename}}</span>
                             <span> Zoom <div class="btn-group mr-2" role="group" aria-label="First group">
                                 <button type="button" class="btn btn-link" onclick="zoomOut()"><i class="fa fa-minus"></i></button>
                                 <button type="button" class="btn btn-link" onclick="zoomIn()"><i class="fa fa-plus"></i></button>
@@ -45,7 +45,8 @@
         // eslint-disable-next-line no-alert
         alert("Please build the pdfjs library using\n  `gulp dist-install`");
     }
-    var DEFAULT_URL = '/static/test.pdf';
+    var STREAM = _base64ToArrayBuffer('{{stream}}');
+
     pdfjsLib.GlobalWorkerOptions.workerSrc = '/static/pdfjs/build/pdf.worker.js';
 
     var CMAP_URL = "/static/pdfjs/cmaps/";
@@ -53,18 +54,21 @@
     var PAGE_TO_VIEW = 1;
     var SCALE = 1.0;
     // var SCALE = 1.0;
-
     var container = document.getElementById("pageContainer");
-
     var eventBus = new pdfjsViewer.EventBus();
-
-    // Loading document.
-    var loadingTask = pdfjsLib.getDocument({
-        url: DEFAULT_URL,
-        cMapUrl: CMAP_URL,
-        cMapPacked: CMAP_PACKED,
-    });
+    var loadingTask = pdfjsLib.getDocument(STREAM);
     loadpdf(loadingTask);
+
+
+    function _base64ToArrayBuffer(base64) {
+        var binary_string = window.atob(base64);
+        var len = binary_string.length;
+        var bytes = new Uint8Array(len);
+        for (var i = 0; i < len; i++) {
+            bytes[i] = binary_string.charCodeAt(i);
+        }
+        return bytes.buffer;
+    }
 
     function zoomOut() {
         container.innerHTML = "";
@@ -83,9 +87,6 @@
             // Document loaded, retrieving the page.
             var pages = pdfDocument.numPages;
             for (var page = 1; page <= pages; page++) {
-                // canvas = document.createElement("canvas");
-                // canvas.className = 'pdf-page-canvas';
-                // viewer.appendChild(canvas);
                 renderPage(page, pdfDocument);
             }
 
@@ -113,26 +114,5 @@
             return pdfPageView.draw();
         });
     }
-
-
-    // var loadingTask = pdfjsLib.getDocument(url);
-    // loadingTask.promise.then(function(pdf) {
-    //     pdf.getPage(1).then(function(page) {
-    //         var scale = 1.5;
-    //         var viewport = page.getViewport({
-    //             scale: scale,
-    //         });
-    //         var canvas = document.getElementById('the-canvas');
-    //         var context = canvas.getContext('2d');
-    //         canvas.height = viewport.height;
-    //         canvas.width = viewport.width;
-    //         var renderContext = {
-    //             canvasContext: context,
-    //             viewport: viewport,
-    //         };
-    //         page.render(renderContext);
-    //     });
-    // });
-    // var container = document.getElementById('pdf-container');
 </script>
 {% endblock %}

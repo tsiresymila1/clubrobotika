@@ -4,11 +4,33 @@ var db = require('./../models');
 
 router.get('/', function(req, res) {
     req.session.active = "student"
-    db.Student.findAll({ raw: true, nest: true, }).then((data) => {
-        res.render('admin/student/index', { students: data });
-    }).catch((error) => {
-        res.status(500).send(error);
-    });
+    if (req.query.category != undefined) {
+        db.Student.findAll({
+            where: {
+                category: req.query.category
+            },
+            include: [{ model: db.Program, required: false, as: "presents" }],
+            order: [
+                ['name', 'ASC'],
+                ['lastname', 'ASC']
+            ]
+        }).then((data) => {
+            console.log(data);
+            res.render('admin/student/index', { students: data });
+        })
+    } else {
+        db.Student.findAll({
+            include: [{ model: db.Program, required: false, as: "presents" }],
+            order: [
+                ['name', 'ASC'],
+                ['lastname', 'ASC']
+            ]
+        }).then((data) => {
+            console.log(data);
+            res.render('admin/student/index', { students: data });
+        })
+    }
+
 });
 router.get('/add', function(req, res) {
     req.session.active = "student"

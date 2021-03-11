@@ -126,6 +126,10 @@
                                     <label for="username">Pseudo</label>
                                     <input type="text" class="form-control" id="username" name="username" aria-describedby="textHelp">
                                 </div>
+                                <div class="form-group">
+                                    <label for="role">Access</label>
+                                    <input type="text" class="form-control" id="role" name="role" aria-describedby="textHelp">
+                                </div>
                                 {% if coach.role != "superadmin"%}
                                 <div class="form-group">
                                     <label for="password">Mot de passe</label>
@@ -201,6 +205,10 @@
                                 <div class="form-group">
                                     <label for="ed_password">Mot de passe</label>
                                     <input type="password" class="form-control" id="ed_password" name="password" aria-describedby="textHelp">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ed_role">Access</label>
+                                    <input type="text" class="form-control" id="ed_role" name="role" aria-describedby="textHelp">
                                 </div>
                                 <div class="form-group">
                                     <label for="category">Category</label>

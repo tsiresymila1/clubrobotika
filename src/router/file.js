@@ -10,10 +10,10 @@ const { Op } = require("sequelize");
 
 router.get('/', function(req, res) {
     req.session.active = "document";
-    db.File.findAll({raw:true,nest:true}).then(function(data){
+    db.File.findAll({ raw: true, nest: true }).then(function(data) {
         console.log(data)
-        res.render('admin/document/index',{files:data});
-    }).catch(function(error){
+        res.render('admin/document/index', { files: data });
+    }).catch(function(error) {
         res.status(500).send(error);
     })
 });
@@ -21,26 +21,26 @@ router.get('/', function(req, res) {
 
 router.post('/add', function(req, res) {
     var file = req.files.file;
-    var uploadPath = __dirname + '/../public/document/';
+    var uploadPath = __dirname + '/../public/documents/';
     var itemsProcessed = 0;
     var extension = file.name.split('.').slice(-1)[0];
-    var newname = uuid()+'.'+extension ;
+    var newname = uuid() + '.' + extension;
     itemsProcessed++;
-    file.mv(uploadPath+newname,function(err){
-        if(err) return ;
+    file.mv(uploadPath + newname, function(err) {
+        if (err) { res.status(500).send(err); return; }
         var jsondata = {
-            type : file.mimetype,
+            type: file.mimetype,
             name: newname,
             size: file.size,
-            securename : req.body.securename
+            securename: req.body.securename
         }
-        db.File.create(jsondata).then(function(indice){
+        db.File.create(jsondata).then(function(indice) {
             res.redirect('/admin/document')
-        }).catch(function(err){
+        }).catch(function(err) {
             res.status(500).send(err);
         })
     });
-    
+
 
 
 });

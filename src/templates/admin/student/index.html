@@ -18,15 +18,18 @@
                 <div class="col-md-2 col-sm-12 p-3 text-center">
                     <div class="form-inline justify-content-center">
                         <div class="form-group">
-                            <label for="exampleFormControlSelect1 pr-2">Categorie</label>
-                            <select class="form-control" id="exampleFormControlSelect1">
-                              <option>A</option>
-                              <option>B</option>
-                              <option>C</option>
+                            <label for="searchcategory">Categorie</label>
+                            <select class="form-control" id="searchcategory">
+                              <option>Tous</option>
+                              <option {% if request.query.category === "A" %} selected {% endif %}>A</option>
+                              <option {% if request.query.category === "B" %} selected {% endif %}>B</option>
+                              <option {% if request.query.category === "C" %} selected {% endif %} >C</option>
                             </select>
                           </div>
                     </div>
                 </div>
+                
+                {% if request.session.user.role == 'superadmin' or  request.session.user.role == 'admin' %}
                 <div class="col-md-2 col-sm-12 p-3 text-center">
                     <a href="/admin/student/add" class="btn btn-info"><i class="fa fa-user-plus"></i> Nouveau</a>
                 </div>
@@ -47,6 +50,7 @@
                     </div>
                      </form>
                 </div>
+                {% endif %}
                 
                 
             </div>
@@ -73,6 +77,7 @@
                                     <th scope="col">Grade</th>
                                     <th scope="col">Filière</th>
                                     <th scope="col">Ecole</th>
+                                    <th scope="col">Présence</th>
                                     <th scope="col">Action</th>
                                     </tr>
                                 </thead>
@@ -86,10 +91,13 @@
                                     <td>{{ student.grade}}</td>
                                     <td>{{ student.field}}</td>
                                     <td>{{ student.school}}</td>
+                                    <td>{{ student.presents | length }}</td>
                                     <td>
                                          <a type="button" class="btn btn-success m-1" data-toggle="modal" data-target="#modal_aside_right{{student.id}}"><i class="fa fa-eye"></i> Voir</a>
                                         <a type="button" class="btn btn-info m-1" href="/admin/student/edit/{{student.id}}"><i class="fa fa-edit"></i> Edit</a>
+                                        {% if request.session.user.role == "admin" or request.session.user.role == "superadmin" %}
                                         <a type="button" class="btn btn-danger m-1" data-toggle="modal" data-target="#deleteStudent{{student.id}}"><i class="fa fa-trash"></i> Suppr.</a>
+                                        {% endif%}
                                     </td>
                                     </tr>
                                     <tr> 
@@ -153,12 +161,9 @@
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                 Nombre de présence
-                                <span class="badge badge-success badge-pill">14</span>
+                                <span class="badge badge-success badge-pill">{{ student.presents | length }}</span>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Nombre d'absence
-                                <span class="badge badge-danger badge-pill">2</span>
-                                </li>
+                               
                                 
                               </ul> 
                         </div>
@@ -200,4 +205,22 @@
     </div>
 
    
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#searchcategory').on('change', function() {
+    var cat = $(this).find(":selected").val();
+    var url = window.location.href.split('?')[0];
+    if(cat === "Tous"){
+         window.location.replace(url);
+    }
+    else{
+         window.location.replace(url+'?category='+cat);
+    }
+   
+});
+})
+</script>
 {% endblock %}
