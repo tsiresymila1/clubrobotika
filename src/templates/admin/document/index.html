@@ -27,7 +27,7 @@
                             <span class="input-group-addon pl-r"><button type="buttol" data-toggle="modal" data-target="#modaleName" class="btn btn-success"><i class="fa fa-upload  text-white"></i> Charger</button></span>
                         </div>
                         <!-- Modal dNameelete-->
-                        <div class="modal fade" id="modaleName" tiabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal animate__animated animate__zoomIn " id="modaleName" tiabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-body">
@@ -65,7 +65,7 @@
                         </h2>
                     </div>
                     <div class="card-body">
-                        <table class="table">
+                        <table class="table table-responsive-lg">
                             <thead>
                                 <tr>
                                 <th scope="col">#</th>
@@ -85,7 +85,14 @@
                                 <td>{{file.name}}</td>
                                 <td>{{file.type}}</td>
                                 <td>{{file.size}}</td>
-                                <td><a href="#deleteFile{{file.id}}"  data-toggle="modal" class="btn btn-link"> <i class="fa fa-trash"></i></a></td>
+                               
+                                <td>
+                                 {% if request.session.user.role == "superadmin" %}
+                                 <a href="/admin/program/view/{{file.id}}" class="btn-btn-link text-info font-weight-bold mx-1"> <i class="fa fa-eye text-success"></i> Voir </a>
+                                <a href="#deleteFile{{file.id}}"  data-toggle="modal" class="btn btn-link"> <i class="fa fa-trash"></i></a>
+                                {% endif %}
+                                </td>
+                                
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -102,7 +109,7 @@
     <!-- Modal add-->
     {% for file in files %}
      <!-- Modal delete-->
-     <div class="modal fade" id="deleteFile{{file.id}}" tiabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+     <div class="modal animate__animated animate__zoomIn " id="deleteFile{{file.id}}" tiabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered" role="document">
             <div class="modal-content">
                 <form action="/admin/document/delete" method="post" enctype="multipart/form-data">

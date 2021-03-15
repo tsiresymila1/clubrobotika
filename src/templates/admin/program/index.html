@@ -69,7 +69,11 @@
                                 <ul class="list-group">
                                     {% for file in program.Files %}
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span> {% if file.type == 'application/pdf' %}<i class="fa fa-file-pdf text-danger "></i>{% else %} <i class="fa fa-folder-open text-info"></i> {% endif %} {{ file.securename }} - {{ file.type }} </span>
+                                        <span> {% if file.type == 'application/pdf' %}
+                                            <i class="fa fa-file-pdf text-danger "></i>
+                                            {% else %} 
+                                            <i class="fa fa-video text-danger"></i> 
+                                            {% endif %} {{ file.securename }} - {{ file.type }} </span>
                                         <span>
                                             <a href="/admin/program/view/{{file.id}}" class="btn-btn-link text-info font-weight-bold mx-1"> <i class="fa fa-eye text-success"></i> Voir </a>
                                             {% if request.session.user.role == "superadmin" or  request.session.user.role == "admin" %}
@@ -108,9 +112,9 @@
     </div>
 
     <!-- Modal add-->
-    <div class="modal fade" id="addProgram" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal animate__animated animate__zoomIn " id="addProgram"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg  modal-dialog-scrollable modal-dialog-centered" role="document">
-            <div class="modal-content">
+            <div class="modal-content ">
                 <form action="/admin/program/add" method="post" enctype="multipart/form-data">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">Nouveau Programme</h5>
@@ -158,7 +162,7 @@
     <!-- Modal add-->
     {% for program in programs %}
     <!-- Modal modifier-->
-    <div class="modal fade" id="editProgram{{program.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal animate__animated animate__zoomIn " id="editProgram{{program.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg  modal-dialog-scrollable modal-dialog-centered" role="document">
             <div class="modal-content">
                 <form action="/admin/program/update" method="post" enctype="multipart/form-data">
@@ -209,7 +213,7 @@
         </form>
     </div>
     <!-- fin modifier -->
-    <div class="modal fade" id="addFile{{program.id}}" tiabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal animate__animated animate__zoomIn " id="addFile{{program.id}}" tiabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered" role="document">
             <div class="modal-content">
                 <form action="/admin/program/file/add" method="post" enctype="multipart/form-data">
@@ -239,7 +243,7 @@
         </form>
     </div>
     <!-- Modal delete-->
-    <div class="modal fade" id="deleteProgram{{program.id}}" tiabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal animate__animated animate__zoomIn " id="deleteProgram{{program.id}}" tiabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered" role="document">
             <div class="modal-content">
                 <form action="/admin/program/delete" method="post" enctype="multipart/form-data">
@@ -264,7 +268,7 @@
         </form>
     </div>
     <!-- fin presence -->
-    <div class="modal fade" id="presence{{program.id}}" tiabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal animate__animated animate__zoomIn " id="presence{{program.id}}" tiabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered" role="document">
             <div class="modal-content">
                 <form action="/admin/program/present" method="post" enctype="multipart/form-data">

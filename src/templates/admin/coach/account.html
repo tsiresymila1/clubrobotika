@@ -38,16 +38,16 @@
                             </div>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Nombre de présence
-                                <span class="badge badge-success badge-pill">14</span>
+                                Nombre de séance
+                                <span class="badge badge-success badge-pill">{{request.session.user.present}}</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Nombre d'absence
-                                <span class="badge badge-danger badge-pill">2</span>
+                                Nombre de presence
+                                <span class="badge badge-danger badge-pill">{{ programs | length }}</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                 Nombre d'étudiant
-                                <span class="badge badge-info badge-pill">1</span>
+                                <span class="badge badge-info badge-pill">{{ students | length }}</span>
                                 </li>
                               </ul> 
                             
@@ -71,9 +71,9 @@
                                 Email
                                 <span class="badge badge-info badge-pill">{{ request.session.user.email}}</span>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {# <li class="list-group-item d-flex justify-content-between align-items-center">
                                 Facebook
-                                <span class="badge badge-info badge-pill">1</span>
+                                <span class="badge badge-info badge-pill">1</span> #}
                                 </li>
                               </ul> 
                             
@@ -149,7 +149,7 @@
                                                 <label for="phone">Numero Tél.</label>
                                                 <input type="text" class="form-control" id="phone" name="phone" value="{{ request.session.user.phone}}" aria-describedby="textHelp">
                                             </div>
-                                             {% if request.session.user.role == "superadmin" %}{% endif%}
+                                             
                                             <div class="form-group">
                                                 <label for="matricule">Matricule</label>
                                                 <input {% if request.session.user.role != "superadmin" %}readonly{% endif%} type="text" class="form-control" id="matricule" value="{{ request.session.user.matricule}}" name="matricule" aria-describedby="textHelp">
@@ -158,7 +158,7 @@
                                                 <label for="username">Pseudo</label>
                                                 <input type="text" class="form-control" id="username" value="{{ request.session.user.username}}" name="username" aria-describedby="textHelp">
                                             </div>
-                                            
+                                            {% if request.session.user.role == "superadmin" %}
                                             <div class="form-group">
                                                 <label for="category">Category</label>
                                                 <select class="form-control" id="category" name="category">
@@ -167,6 +167,7 @@
                                                     <option {% if request.session.user.category == "C" %} selected {%endif%} value="C">C</option>
                                                 </select>
                                             </div>
+                                            {% endif %}
                                             <div class="form-group">
                                                 <button type="submit" class="btn btn-info">Modifier</button>
                                             </div>
@@ -203,7 +204,7 @@
                 </div>
                
                  <!-- Modal -->
-                <div id="modal_aside_right" class="modal fixed-left fade" tabindex="-1" role="dialog">
+                <div id="modal_aside_right" class="modal fixed-left " tabindex="-1" role="dialog">
                     <div class="modal-dialog modal-dialog-aside" role="document">
                         <div class="modal-content">
                         <div class="modal-header  text-center font-weight-bold">

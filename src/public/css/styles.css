@@ -419,6 +419,10 @@ input.search-control {
     border-radius: 20px !important;
 }
 
+.search-btn {
+    border-radius: .25rem !important;
+}
+
 .card,
 .btn,
 .breadcrumb {
@@ -568,4 +572,74 @@ input[readonly] {
 
 .modal-content {
     border-radius: 0 !important;
+}
+
+#studentList_length {
+    display: none;
+}
+
+.form-check-input {
+    position: relative i !important;
+}
+
+.modal.fade {
+    opacity: 1;
+}
+
+.modal.fade .modal-dialog {
+    -webkit-transform: translate(0);
+    -moz-transform: translate(0);
+    transform: translate(0);
+}
+
+
+/* ANimation */
+
+.adminWidget {
+    animation: fadein 1.2s;
+    -moz-animation: fadein 1.2s;
+    /* Firefox */
+    -webkit-animation: fadein 1.2s;
+    /* Safari and Chrome */
+    -o-animation: fadein 1.2s;
+    /* Opera */
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes fadein {
+    /* Firefox */
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadein {
+    /* Safari and Chrome */
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@-o-keyframes fadein {
+    /* Opera */
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }

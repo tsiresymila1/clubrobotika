@@ -8,7 +8,15 @@ import db from "../models";
 router.get('/', function(req, res) {
     req.session.active = "account";
     db.Coach.findAll({ raw: true, nest: true, }).then((data) => {
-        res.render('admin/coach/account', { coachs: data, });
+        db.Student.findAll({ raw: true, nest: true, where: { category: req.session.user.category } }).then((student) => {
+            db.Program.findAll({ raw: true, nest: true, where: { category: req.session.user.category } }).then((programs) => {
+                res.render('admin/coach/account', { coachs: data, students: student, programs: programs });
+            }).catch((error) => {
+                res.status(500).send(error);
+            });
+        }).catch((error) => {
+            res.status(500).send(error);
+        });
     }).catch((error) => {
         res.status(500).send(error);
     });
