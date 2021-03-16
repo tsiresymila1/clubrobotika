@@ -14,6 +14,7 @@ import coachRouter from './router/coach';
 import accountRouter from './router/account';
 import programRouter from './router/program';
 import documentRouter from './router/file';
+import transcriptionRouter from './router/transcription';
 
 let app = express();
 
@@ -43,6 +44,7 @@ app.use("/admin/coach", coachRouter);
 app.use('/admin/account', accountRouter);
 app.use('/admin/program', programRouter);
 app.use('/admin/document', documentRouter);
+app.use('/admin/transcription', transcriptionRouter);
 
 const expressNunjucks = require('express-nunjucks');
 const isDev = app.get('env') === 'development';

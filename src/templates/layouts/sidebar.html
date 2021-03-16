@@ -17,6 +17,10 @@
             class="p-3 list-group-item list-group-item-action  {% if  request.session.active == 'student' %} active {% endif %}"><i
                 class="fas fa-users">
             </i> <span class="ml-4" >Etudiants</span></a>
+         <a href="/admin/transcription"
+            class="p-3 list-group-item list-group-item-action  {% if  request.session.active == 'transcription' %} active {% endif %}"><i
+                class="fas fa-file-alt">
+            </i> <span class="ml-4" >Notes</span></a>
          {% if(request.session.user.role == "superadmin")%}
          <a href="/admin/fee"
             class="p-3 list-group-item list-group-item-action {% if  request.session.active == 'fee' %} active {% endif %}"><i

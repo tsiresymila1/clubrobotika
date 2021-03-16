@@ -337,7 +337,7 @@ c6 = #0ABEAF */
     height: 100%;
     margin: 0;
     transform: translate(0);
-    transition: transform .2s;
+    transition: transform .7s;
 }
 
 .modal .modal-dialog-aside .modal-content {
@@ -574,7 +574,8 @@ input[readonly] {
     border-radius: 0 !important;
 }
 
-#studentList_length {
+#studentList_length,
+#transcriptionList_length {
     display: none;
 }
 

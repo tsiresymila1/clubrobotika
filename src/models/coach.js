@@ -1,5 +1,6 @@
 'use strict';
 import { Model } from 'sequelize';
+import db from '.';
 
 module.exports = (sequelize, DataTypes) => {
 
@@ -33,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: 'coachid'
             });
             this.belongsToMany(models.Program, {
-                through: 'CoachProgram',
+                through: models.Cprogram,
                 as: 'programs',
                 foreignKey: 'coachid'
             });

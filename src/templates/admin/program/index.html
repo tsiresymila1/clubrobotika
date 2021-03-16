@@ -57,7 +57,7 @@
                                         <h6 class="ml-3"> <b>Catégorie {{ program.category }}</b> </h6>
                                     </div>
                                     <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                        <input type="checkbox" value="{{program.id}}"  onclick="toogleCheck(this, {{request.session.user.id}})" id="programState{{program.id}}" class="form-check-input" id="exampleCheck1">
                                         <label class="form-check-label" for="exampleCheck1">Terminé</label>
                                     </div>
                                 </div>
@@ -298,4 +298,45 @@
 </div>
 
 
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        function toogleCheck(el,coachid) {
+                var id = $(el).val();
+                var data = {
+                    programid: id,
+                    coachid : coachid
+                }
+                var state = false;
+                if ($(el).is(":checked")) {
+                    data['finish'] = 1;
+                    state = true;
+                } else {
+                    data['finish'] = 0;
+                }
+                $(el).attr('checked',state);
+                var parent = $(el).parent()
+                var oldhtml = parent.html();
+                parent.html('<div class="spinner-border" style="height:1rem;width:1rem;"  role="status"><span class="sr-only">Loading...</span></div>')
+                $.ajax({
+                    type: "POST",
+                    url: "/admin/program/state",
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        parent.html(oldhtml);
+                        $("#programState" + id).prop("checked", state);
+                        
+
+                    },
+                    error: function (errMsg) {
+                        parent.html(oldhtml)
+                        $("#programState" + id).prop("checked", state);
+                    }
+                });
+            }
+    </script>
 {% endblock %}

@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
                 description: DataTypes.STRING,
                 numero: DataTypes.INTEGER,
                 date: DataTypes.DATE,
+                finish: DataTypes.BOOLEAN,
                 createdAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
                 updatedAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
             }, {
@@ -20,9 +21,14 @@ module.exports = (sequelize, DataTypes) => {
         }
         static associate(models) {
             this.hasMany(models.File);
-            this.belongsToMany(models.Coach, {
+            this.belongsToMany(models.Student, {
                 through: 'Present',
                 as: 'presents',
+                foreignKey: 'programid'
+            });
+            this.belongsToMany(models.Coach, {
+                through: models.Cprogram,
+                as: 'coachs',
                 foreignKey: 'programid'
             });
 

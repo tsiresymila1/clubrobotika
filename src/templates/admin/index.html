@@ -5,7 +5,9 @@
     <div class="container-fluid" style="margin-top:20px;">
         <nav class="d-flex title-dash " aria-label="breadcrumb">
             <ol class="breadcrumb mt-2 mb-2 w-100 py-3 shadow-theme">
-                <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                <li class="breadcrumb-item">
+                    <a href="#">Admin</a>
+                </li>
                 <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
             </ol>
         </nav>
@@ -17,63 +19,173 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-6 justify-content-center">
-                                        <h3 class="card-title">{{student}}</h3>
+                                        <h3 class="card-title">{{students | length }}</h3>
                                         <p class="card-text dashbord-title">Etudiants</p>
                                     </div>
                                     <div class="col-6 justify-content-center">
-                                        <span class="hvr-grow"> <i class="fa fa-4x fa-user-graduate"></i> </span>
+                                        <span class="hvr-grow">
+                                            <i class="fa fa-4x fa-user-graduate"></i>
+                                        </span>
                                     </div>
-    
+
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <small class=" text-white">Plus d'infos<a href="/admin/student"><span class="badge bg-theme-color badge-pill p-2 ml-2"><i class="fa fa-2x fa-arrow-right text-white" aria-hidden="true"></i></span></i></a></small>
-                            </div>
+                                <small class=" text-white">Plus d'infos<a href="/admin/student">
+                                        <span class="badge bg-theme-color badge-pill p-2 ml-2">
+                                            <i class="fa fa-2x fa-arrow-right text-white" aria-hidden="true"></i></span></i>
+                                </a>
+                            </small>
                         </div>
                     </div>
+                </div>
 
-                    <div class="m-5">
-                        <div class="card bg-theme-color border-0 card-radius-1" style="width:350px;">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-6 justify-content-center">
-                                        <h3 class="card-title">{{program}}</h3>
-                                        <p class="card-text">Programmes</p>
-                                    </div>
-                                    <div class="col-6 justify-content-center">
-                                        <span class="hvr-grow"> <i class="fa fa-4x fa-book-reader"></i> </span>
-                                    </div>
-    
+                <div class="m-5">
+                    <div class="card bg-theme-color border-0 card-radius-1" style="width:350px;">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6 justify-content-center">
+                                    <h3 class="card-title">{{programs | length }}</h3>
+                                    <p class="card-text">Programmes</p>
                                 </div>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-white">Plus d'infos<a href="/admin/program"><span class="badge bg-theme-color badge-pill p-2 ml-2"><i class="fa fa-2x fa-arrow-right text-white" aria-hidden="true"></i></span></i></a></small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="m-5">
-                        <div class="card bg-c3  border-0 card-radius-1" style="width:350px;">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-6 justify-content-center">
-                                        <h3 class="card-title">{{coach}}</h3>
-                                        <p class="card-text ">Coachs</p>
-                                    </div>
-                                    <div class="col-6 justify-content-center">
-                                        <span class="hvr-grow"> <i class="fa fa-4x fa-chalkboard-teacher"></i> </span>
-                                    </div>
-    
+                                <div class="col-6 justify-content-center">
+                                    <span class="hvr-grow">
+                                        <i class="fa fa-4x fa-book-reader"></i>
+                                    </span>
                                 </div>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-white">Plus d'infos {% if request.session.user.role == "superadmin" %}<a href="/admin/coach"><span class="badge bg-theme-color badge-pill p-2 ml-2"><i class="fa fa-2x fa-arrow-right text-white" aria-hidden="true"></i></span></i></a>{% endif%}</small>
+
                             </div>
                         </div>
+                        <div class="card-footer">
+                            <small class="text-white">Plus d'infos<a href="/admin/program">
+                                    <span class="badge bg-theme-color badge-pill p-2 ml-2">
+                                        <i class="fa fa-2x fa-arrow-right text-white" aria-hidden="true"></i></span></i>
+                            </a>
+                        </small>
                     </div>
-
                 </div>
             </div>
+
+            <div class="m-5">
+                <div class="card bg-c3  border-0 card-radius-1" style="width:350px;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6 justify-content-center">
+                                <h3 class="card-title">{{coachs | length }}</h3>
+                                <p class="card-text ">Coachs</p>
+                            </div>
+                            <div class="col-6 justify-content-center">
+                                <span class="hvr-grow">
+                                    <i class="fa fa-4x fa-chalkboard-teacher"></i>
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-white">Plus d'infos 
+                            {% if request.session.user.role == "superadmin" %}
+                            <a href="/admin/coach">
+                                    <span class="badge bg-theme-color badge-pill p-2 ml-2">
+                                        <i class="fa fa-2x fa-arrow-right text-white" aria-hidden="true"></i></span></i>
+                            </a>
+                            {% endif%}
+                        </small>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
+</div>
+<div class="row mr-2 justify-content-center">
+    <div class="col-md-8 col-sm-12">
+        <canvas id="categoryA" height="150"></canvas>
+    </div>
+    <div class="col-md-4 col-sm-12 mt-5">
+        <div class="card card-teal shadow-theme card-theme border-1 card-radius-5 mx-2">
+            <div class="card-header card-header-bg-teal" id="headingOne">
+              <h4 class="mb-0">Coach présent</h4>
+            </div>
+            <div class="card-body">
+                
+            </div>
+          </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+var data = JSON.parse('{{ programs | dump }}');
+
+var actx = document.querySelector('#categoryA');
+var labels = data.map(function(m){ 
+    var date = moment(m.date);
+    return date.format('DD-MM-YYYY')
+
+});
+
+var categoryAData = data.filter(function(m){ return m.category == "A"});
+var aData = categoryAData.map(function(m){ return m.presents.length});
+
+var categoryBData = data.filter(function(m){ return m.category == "B"});
+var bData = categoryBData.map(function(m){ return m.presents.length});
+
+var categoryCData = data.filter(function(m){ return m.category == "C"});
+var cData = categoryCData.map(function(m){ return m.presents.length});
+
+
+var myLineChart = new Chart(actx, {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [
+            {
+                data: aData,
+                label: "Categorie A",
+                borderColor: "#3e95cd",
+                fill: false
+            },
+             {
+                data: bData,
+                label: "Categorie B",
+                borderColor: "#28DAAD",
+                fill: false
+            },
+             {
+                data: cData,
+                label: "Categorie C",
+                borderColor: "#E23241",
+                fill: false
+            }
+        ]
+    },
+    options: {
+        title: {
+            display: true,
+            text: 'Presence par category '
+        },
+        scales: {
+                    xAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Date'
+                            }
+                        }],
+                    yAxes: [{
+                            display: true,
+                            ticks: {
+                                beginAtZero: true,
+                                steps: 2,
+                                stepValue: 5,
+                                max: 100
+                            }
+                        }]
+                },
+    }
+});
+</script>
 {% endblock %}

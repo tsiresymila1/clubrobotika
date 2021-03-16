@@ -4,7 +4,7 @@
     <nav class="d-flex title-dash  " aria-label="breadcrumb">
         <ol class="breadcrumb mt-2 mb-2 w-100 py-3 shadow-theme">
             <li class="breadcrumb-item"><a href="#">Admin</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Programs</li>
+            <li class="breadcrumb-item active" aria-current="page">Documents</li>
         </ol>
     </nav>
     {% if request.session.user.role == "superadmin" %}
@@ -122,7 +122,7 @@
                     <div class="modal-body">
                         <div class="container-fluid">
                             <input type="hidden" id="de_id" name="id" value="{{file.id}}" />
-                            <h6 id="title"> Confirmez-vous la suppression de dichier <b>{{file.name}}</b> ?</h6> 
+                            <h6 id="title"> Confirmez-vous la suppression de fichier <b>{{file.name}}</b> ?</h6> 
                         </div>
                     </div>
                     <div class="modal-footer">

@@ -40,10 +40,15 @@ router.post('/login', function(req, res) {
 
 router.get('/', function(req, res) {
     req.session.active = "dashboard"
-    db.Coach.count().then(function(resultat) {
-        db.Student.count().then(function(resultat2) {
-            db.Program.count().then(function(resultat3) {
-                res.render('admin/index', { coach: resultat, student: resultat2, program: resultat3 });
+    db.Coach.findAll().then(function(resultat) {
+        db.Student.findAll().then(function(resultat2) {
+            db.Program.findAll({
+                include: [{ model: db.Student, required: false, as: "presents" }],
+                order: [
+                    ['date', 'ASC'],
+                ]
+            }).then(function(resultat3) {
+                res.render('admin/index', { coachs: resultat, students: resultat2, programs: resultat3 });
             }).catch(function(err) {
                 res.redirect('/admin/login');
             })

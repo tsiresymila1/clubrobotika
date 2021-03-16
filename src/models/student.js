@@ -36,8 +36,9 @@ module.exports = (sequelize, DataTypes) => {
             this.belongsToMany(models.Program, {
                 through: 'Present',
                 as: 'presents',
-                foreignKey: 'studentid'
+                foreignKey: 'id'
             });
+            this.hasMany(models.Transcription, { as: "transcriptions" });
         }
     };
     return Student;

@@ -82,6 +82,8 @@
                                                 <option value='10'>10</option>
                                                 <option value='20'>20</option>
                                                 <option value='50'>50</option>
+                                                <option value='100'>100</option>
+                                                <option value='200'>200</option>
                                             </select>
                                         </div>
                                     </div>
@@ -100,14 +102,15 @@
                                         <th scope="col">Ecole</th>
                                         <th scope="col">Présence</th>
                                         <th scope="col">Droit d'inscription</th>
-                                        <th scope="col">Action</th>
+                                        <th scope="col"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for student in students %}
                                         <tr>
                                         <td>
-                                        <img src="/static/assets/profile/students/{{student.image}}" class="rounded-circle" height="50" width="50" />
+                                        {# <img src="/static/assets/profile/students/{{student.image}}" class="rounded-circle" height="50" width="50" /> #}
+                                        {{ student.id}}
                                         </td>
                                             <th scope="row">{{ student.matricule}}</th>
                                             <td>{{ student.category}}</td>
@@ -122,14 +125,14 @@
                                             <span style="opacity:0;" id="span{{student.id}}">{{ student.present}}<span>
                                             </td>
                                             <td>
-                                                <a type="button" class="btn btn-success m-1" data-toggle="modal" data-target="#modal_aside_right{{student.id}}">
+                                                <a type="button" class="btn btn-outline-success m-1 d-inline" style="border-radius:20px !important;" data-toggle="modal" data-target="#modal_aside_right{{student.id}}">
                                                     <i class="fa fa-eye"></i> Voir</a>
-                                                {% if request.session.user.role == "admin" or request.session.user.role == "superadmin" %}
-                                                    <a type="button" class="btn btn-info m-1" href="/admin/student/edit/{{student.id}}">
+                                                {# {% if request.session.user.role == "admin" or request.session.user.role == "superadmin" %}
+                                                    <a type="button" class="btn btn-outline-info m-1 " style="border-radius:20px !important;" href="/admin/student/edit/{{student.id}}">
                                                         <i class="fa fa-edit"></i> Edit</a>
-                                                {% endif %}
+                                                {% endif %} #}
                                                 {% if request.session.user.role == "superadmin" %}
-                                                    <a type="button" class="btn btn-danger m-1" data-toggle="modal" data-target="#deleteStudent{{student.id}}">
+                                                    <a type="button" class="btn btn-outline-danger m-1" style="border-radius:20px !important;" data-toggle="modal" data-target="#deleteStudent{{student.id}}">
                                                         <i class="fa fa-trash"></i> Suppr.</a>
                                                 {% endif %}
                                             </td>
@@ -320,6 +323,7 @@
         $(document).ready(function () {
             var oTable = $('#studentList').DataTable({
                 "sDom": "rtipl",
+                "pageLength": 5,
                 "language": {
                     "url": "/static/dist/french.json"
                 },
