@@ -21,11 +21,13 @@ module.exports = (sequelize, DataTypes) => {
         }
         static associate(models) {
             this.hasMany(models.File);
+
             this.belongsToMany(models.Student, {
-                through: 'Present',
+                through: models.PStudent,
                 as: 'presents',
                 foreignKey: 'programid'
             });
+
             this.belongsToMany(models.Coach, {
                 through: models.Cprogram,
                 as: 'coachs',

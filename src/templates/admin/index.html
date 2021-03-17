@@ -85,7 +85,7 @@
                     <div class="card-footer">
                         <small class="text-white">Plus d'infos 
                             {% if request.session.user.role == "superadmin" %}
-                            <a href="/admin/coach">
+                                <a href="/admin/coach">
                                     <span class="badge bg-theme-color badge-pill p-2 ml-2">
                                         <i class="fa fa-2x fa-arrow-right text-white" aria-hidden="true"></i></span></i>
                             </a>
@@ -102,17 +102,91 @@
     <div class="col-md-8 col-sm-12">
         <canvas id="categoryA" height="150"></canvas>
     </div>
-    <div class="col-md-4 col-sm-12 mt-5">
-        <div class="card card-teal shadow-theme card-theme border-1 card-radius-5 mx-2">
-            <div class="card-header card-header-bg-teal" id="headingOne">
-              <h4 class="mb-0">Coach présent</h4>
+    <div class="col-md-4 col-sm-12 mt-5 pt-4">
+        <div class="row">
+            <div class="col-12 mt-2">
+                <div class="card card- shadow-theme card-theme border-1 card-radius-5 mx-2">
+                    <div class="card-header card-header-bg-teal" id="headingOne">
+                        <h4 class="mb-0">Programmes suivants</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            {% for program in cprograms %}
+                                <li class="list-group-item  d-flex justify-content-between align-items-center">
+                                    <b>{{ program.numero }} - {{ program.title }}</b>
+                                    <span class="badge badge-warning badge-pill">
+                                        <i class="fa fa-spinner fa-spin text-white"></i></span></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                
+            <div class="col-12 mt-5">
+                {% for coach in coachs %}
+                    {% if coach.id == request.session.user.id %}
+                        <div class="card card- shadow-theme card-theme border-1 card-radius-5 mx-2">
+                            <div class="card-header card-header-bg-teal" id="headingOne">
+                                <h4 class="mb-0">Programmes terminés ({{coach.programs | length }})</h4>
+                            </div>
+                            <div class="card-body">
+
+                                <ul class="list-group">
+                                    {% for cprogram in coach.programs %}
+                                        <li class="list-group-item  d-flex justify-content-between align-items-center">
+                                            <b>{{ cprogram.title }}</b>
+                                            <span class="badge badge-success badge-pill">
+                                                <i class="fa fa-check "></i></span></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
             </div>
-          </div>
+        </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-12 m-0 p-0 px-5">
+        <div class="card shadow-theme border-1 card-theme card-radius-5 mb-5">
+            <div class="card-header" id="headingOne">
+                <h2 class="mb-0">
+                    <button class="btn btn-link" type="button">
+                                Statictique de présence
+                                </button>
+                </h2>
+            </div>
+            <div class="card-body">
+                <table class="table table-responsive-lg">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Catégorie</th>
+                            <th scope="col">Program</th>
+                            <th scope="col">Coach present</th>
+                            <th scope="col">Etudiant présents</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for program in programs %}
+                            <tr>
+                                <th scope="row">{{program.numero}}</th>
+                                <td>{{program.category}}</td>
+                                <td>{{program.title}}</td>
+                                <td>{{program.coachs | length}}</td>
+                                <td>{{program.students | length}}</td>
+
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
 {% endblock %}
 
@@ -121,21 +195,33 @@
 var data = JSON.parse('{{ programs | dump }}');
 
 var actx = document.querySelector('#categoryA');
-var labels = data.map(function(m){ 
+var labels = data.map(function (m) {
     var date = moment(m.date);
-    return date.format('DD-MM-YYYY')
+    return date.format('DD-MM-YYYY') 
 
 });
 
-var categoryAData = data.filter(function(m){ return m.category == "A"});
-var aData = categoryAData.map(function(m){ return m.presents.length});
+var categoryAData = data.filter(function (m) {
+    return m.category == "A"
+});
+console.log(categoryAData)
+var aData = categoryAData.map(function (m) {
+    return m.students?.length 
+});
 
-var categoryBData = data.filter(function(m){ return m.category == "B"});
-var bData = categoryBData.map(function(m){ return m.presents.length});
+var categoryBData = data.filter(function (m) {
+    return m.category == "B"
+});
+var bData = categoryBData.map(function (m) {
+    return m.students.length
+});
 
-var categoryCData = data.filter(function(m){ return m.category == "C"});
-var cData = categoryCData.map(function(m){ return m.presents.length});
-
+var categoryCData = data.filter(function (m) {
+    return m.category == "C"
+});
+var cData = categoryCData.map(function (m) {
+    return m.students.length
+});
 
 var myLineChart = new Chart(actx, {
     type: 'line',
@@ -147,14 +233,12 @@ var myLineChart = new Chart(actx, {
                 label: "Categorie A",
                 borderColor: "#3e95cd",
                 fill: false
-            },
-             {
+            }, {
                 data: bData,
                 label: "Categorie B",
                 borderColor: "#28DAAD",
                 fill: false
-            },
-             {
+            }, {
                 data: cData,
                 label: "Categorie C",
                 borderColor: "#E23241",
@@ -168,23 +252,27 @@ var myLineChart = new Chart(actx, {
             text: 'Presence par category '
         },
         scales: {
-                    xAxes: [{
-                            display: true,
-                            scaleLabel: {
-                                display: true,
-                                labelString: 'Date'
-                            }
-                        }],
-                    yAxes: [{
-                            display: true,
-                            ticks: {
-                                beginAtZero: true,
-                                steps: 2,
-                                stepValue: 5,
-                                max: 100
-                            }
-                        }]
-                },
+            xAxes: [
+                {
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Date'
+                    }
+                }
+            ],
+            yAxes: [
+                {
+                    display: true,
+                    ticks: {
+                        beginAtZero: true,
+                        steps: 2,
+                        stepValue: 5,
+                        max: 100
+                    }
+                }
+            ]
+        }
     }
 });
 </script>

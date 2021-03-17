@@ -101,6 +101,7 @@
                                         <th scope="col">Filière</th>
                                         <th scope="col">Ecole</th>
                                         <th scope="col">Présence</th>
+                                        
                                         <th scope="col">Droit d'inscription</th>
                                         <th scope="col"></th>
                                     </tr>
@@ -120,10 +121,14 @@
                                             <td>{{ student.field}}</td>
                                             <td>{{ student.school}}</td>
                                             <td>{{ student.presents | length }}</td>
+                                          
                                             <td class="text-center">
-                                            <input type="checkbox" onclick="toogleCheck(this,{{student.id}})"  value="{{student.id}}" class="form-check-input" {% if student.present == "1" %} checked {% endif %}/>
-                                            <span style="opacity:0;" id="span{{student.id}}">{{ student.present}}<span>
+                                                {% if request.session.user.role == "superadmin" or request.session.user.role == "admin" %}
+                                                <input type="checkbox" onclick="toogleCheck(this,{{student.id}})"  value="{{student.id}}" class="form-check-input" {% if student.present == "1" %} checked {% endif %}/>
+                                                {% endif %}
+                                                <span style="opacity:0;" id="span{{student.id}}">{{ student.present}}<span>
                                             </td>
+                                            
                                             <td>
                                                 <a type="button" class="btn btn-outline-success m-1 d-inline" style="border-radius:20px !important;" data-toggle="modal" data-target="#modal_aside_right{{student.id}}">
                                                     <i class="fa fa-eye"></i> Voir</a>

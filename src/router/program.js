@@ -28,22 +28,20 @@ router.get('/', function(req, res) {
             ],
             include: [{ model: db.Coach, required: false, as: "coachs" }]
         }, ).then(function(data) {
-            var isinclude = false;
-            console.log(data.coachs)
-            if (data.coachs != undefined) {
-                isinclude = data.coachs.filter((m) => m.id === req.session.user.id)
-            }
 
-            console.log("Is include : ", isinclude)
             db.File.findAll({ raw: true, nest: true }).then(function(files) {
-                res.render('admin/program/index', { programs: data, files: files });
+                db.Student.findAll({ raw: true, nest: true, where: whereclose }).then(function(students) {
+                    res.render('admin/program/index', { programs: data, files: files, students: students });
+                }).catch(function(error) {
+                    res.status(500).send(error);
+                })
             }).catch(function(error) {
                 res.status(500).send(error);
             })
         })
-        // .catch(function(error) {
-        //     res.status(500).send(error);
-        // })
+        .catch(function(error) {
+            res.status(500).send(error);
+        })
 });
 
 router.get('/view/:id', function(req, res) {
@@ -138,7 +136,7 @@ router.post('/present', function(req, res) {
     var id = jsondata.id;
     delete jsondata['id'];
     var matricule = jsondata['matricule']
-    db.Student.findOne({ where: { matricule: matricule }, include: [{ model: db.Program, required: false, as: "presents" }], }).then((student) => {
+    db.Student.findOne({ where: { matricule: matricule }, include: [{ model: db.Program, required: false, as: "presences" }], }).then((student) => {
         if (student != null) {
             db.Program.findByPk(id).then((function(program) {
                 student.setPresents([...student.presents, program]).then((sp) => {
@@ -154,19 +152,26 @@ router.post('/present', function(req, res) {
 
 router.post('/state', function(req, res) {
     var jsondata = req.body;
-    if (jsondata['finish'] === 1) {
-        db.Cprogram.create(jsondata).then((sp) => {
-            res.send('OK')
-        }).catch((err) => {
-            res.status(500).send(err);
-        })
-    } else {
-        db.Cprogram.destroy({ where: jsondata }).then((sp) => {
-            res.send('OK')
-        }).catch((err) => {
-            res.status(500).send(err);
-        })
-    }
+    db.Cprogram.findOne({
+        where: {
+            programid: jsondata['programid'],
+            coachid: jsondata['coachid']
+        }
+    }).then((cp) => {
+        if (cp != null) {
+            cp.update(jsondata).then(() => {
+                res.send('OK')
+            })
+        } else {
+            db.Cprogram.create(jsondata).then((sp) => {
+                res.send('OK')
+            }).catch((err) => {
+                res.status(500).send(err);
+            })
+        }
+    }).catch((err) => {
+        res.status(500).send(err);
+    })
 });
 
 

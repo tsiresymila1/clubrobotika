@@ -15,6 +15,7 @@ import accountRouter from './router/account';
 import programRouter from './router/program';
 import documentRouter from './router/file';
 import transcriptionRouter from './router/transcription';
+import feeRouter from './router/fee';
 
 let app = express();
 
@@ -45,6 +46,7 @@ app.use('/admin/account', accountRouter);
 app.use('/admin/program', programRouter);
 app.use('/admin/document', documentRouter);
 app.use('/admin/transcription', transcriptionRouter);
+app.use('/admin/fee', feeRouter);
 
 const expressNunjucks = require('express-nunjucks');
 const isDev = app.get('env') === 'development';
@@ -69,7 +71,7 @@ let server = http.createServer(app);
 
 db.sequelize.authenticate().then(() => {
     console.log('Connection to database mysql has been established successfully.');
-    db.sequelize.sync({ force: false }).then(() => {
+    db.sequelize.sync({ force: false, alter: true }).then(() => {
         server.listen(process.env.PORT || 3000, () => console.log("Server is listening on port 3000"));
     });
 

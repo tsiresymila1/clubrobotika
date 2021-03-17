@@ -7,30 +7,22 @@ import { Op } from 'sequelize';
 
 router.get('/', function(req, res) {
     req.session.active = "student"
-    if (req.query.category != undefined) {
-        db.Student.findAll({
-            where: {
-                category: req.query.category
-            },
-            include: [{ model: db.Program, required: false, as: "presents" }],
-            order: [
-                ['name', 'ASC'],
-                ['lastname', 'ASC']
-            ]
-        }).then((data) => {
-            res.render('admin/student/index', { students: data });
-        })
-    } else {
-        db.Student.findAll({
-            include: [{ model: db.Program, required: false, as: "presents" }],
-            order: [
-                ['name', 'ASC'],
-                ['lastname', 'ASC']
-            ]
-        }).then((data) => {
-            res.render('admin/student/index', { students: data });
-        })
+    var whereclose = {};
+    if (req.session.user.role != "admin" && req.session.user.role != "superadmin") {
+        whereclose = {
+            category: req.session.user.category
+        }
     }
+    db.Student.findAll({
+        where: whereclose,
+        include: [{ model: db.Program, required: false, as: "presences" }],
+        order: [
+            ['name', 'ASC'],
+            ['lastname', 'ASC']
+        ]
+    }).then((data) => {
+        res.render('admin/student/index', { students: data });
+    })
 
 });
 router.get('/add', function(req, res) {

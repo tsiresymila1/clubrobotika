@@ -57,7 +57,7 @@
                                         <h6 class="ml-3"> <b>Catégorie {{ program.category }}</b> </h6>
                                     </div>
                                     <div class="form-check">
-                                        <input type="checkbox" value="{{program.id}}"  onclick="toogleCheck(this, {{request.session.user.id}})" id="programState{{program.id}}" class="form-check-input" id="exampleCheck1">
+                                        <input type="checkbox" {% for coach in program.coachs %} {% if coach.id == request.session.user.id and coach.Cprogram.finish == 1%} checked {% endif %} {% endfor %}value="{{program.id}}"  onclick="toggleCheck(this, {{request.session.user.id}})" id="programState{{program.id}}" class="form-check-input" id="exampleCheck1">
                                         <label class="form-check-label" for="exampleCheck1">Terminé</label>
                                     </div>
                                 </div>
@@ -88,14 +88,13 @@
                             </div>
                             <div class="card-footer text-muted">
                                 <div class="row justify-content-between mx-2">
-                                    <span>{{ program.date | date('DD-MMM-YYYY')}} </span>
+                                    <span class="my-2">{{ program.date | date('DD-MMM-YYYY')}} </span>
                                     <span>
-                                        
-                                        <a href="#presence{{program.id}}"  data-toggle="modal" class="btn btn-info"> <i class="fa fa-graduation-cap"></i> Presence</a>
+                                        <a href="#presence{{program.id}}"  data-toggle="modal" class="btn btn-info my-2"> <i class="fa fa-graduation-cap"></i> Presence</a>
                                         {% if request.session.user.role == "superadmin" %}
-                                        <a href="#addFile{{program.id}}" data-toggle="modal"  class="btn btn-info"> <i class="fa fa-plus"></i> Ajouter fichier</a>
-                                        <a href="#editProgram{{program.id}}"  data-toggle="modal" class="btn btn-info"> <i class="fa fa-edit"></i>Modifier</a>
-                                        <a href="#deleteProgram{{program.id}}"  data-toggle="modal" class="btn btn-danger"> <i class="fa fa-trash"></i>Supprimer</a>
+                                        <a href="#addFile{{program.id}}" data-toggle="modal"  class="btn btn-info my-2"> <i class="fa fa-plus"></i> Ajouter fichier</a>
+                                        <a href="#editProgram{{program.id}}"  data-toggle="modal" class="btn btn-info my-2"> <i class="fa fa-edit"></i>Modifier</a>
+                                        <a href="#deleteProgram{{program.id}}"  data-toggle="modal" class="btn btn-danger my-2"> <i class="fa fa-trash"></i>Supprimer</a>
                                         {% endif %}
                                     </span>
                                 </div>
@@ -190,7 +189,7 @@
                             <div class="form-group">
                                 <label for="ed_category">Category</label>
                                 <select class="form-control" id="ed_category" name="category">
-                                    <option  {% if program.category == "A" %} selected {% endif %} value="A">A</option>
+                                    <option {% if program.category == "A" %} selected {% endif %} value="A">A</option>
                                     <option {% if program.category == "B" %} selected {% endif %} value="B">B</option>
                                     <option {% if program.category == "C" %} selected {% endif %} value="C">C</option>
                                     <option {% if program.category == "Jeux Vidéo" %} selected {% endif %} value="Jeux Vidéo">Jeux Vidéo</option>
@@ -224,10 +223,10 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
+                        <div class="form-group mb-5">
                             <input type="hidden" name="id" value="{{program.id}}">
                             <label for="exampleFormControlSelect2">Choisir des fichiers</label>
-                            <select multiple class="form-control" id="files" name="files">
+                            <select multiple class="form-control selectpicker" id="files" name="files"  data-live-search="true">
                                 {% for file in files%}
                                 <option value="{{ file.id}}" > {{ file.id}} - {{ file.securename}} [{{ file.type}}]</option>
                                 {% endfor %}
@@ -254,7 +253,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="container-fluid">
+                        <div class="container-fluid mb-5">
                             <input type="hidden" id="de_id" name="id" value="{{program.id}}" />
                             <h6 id="title"> Confirmez-vous la suppression de programme <b>{{program.title}}</b> pour la catégorie <b>{{ program.category}}</b> ?</h6>
                         </div>
@@ -279,10 +278,14 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <input type="hidden" name="id" value="{{program.id}}">
-                            <label for="matricule">Matricule</label>
-                            <input type="text" class="form-control" id="matricule" name="matricule" />
+                        <div class="form-group mb-5">
+                            <input type="hidden" name="programid" value="{{program.id}}">
+                            <label for="studentid">Etudiant</label>
+                            <select type="text" class="form-control selectpicker" id="studentid" name="studentid" data-live-search="true"  title="Choisir un etudiant" required>
+                                {% for student in students %}
+                                <option value="{{student.id}}">{{ student.matricule }} - {{student.name | upper }} {{student.lastname | title }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -302,7 +305,7 @@
 
 {% block script %}
     <script type="text/javascript">
-        function toogleCheck(el,coachid) {
+        function toggleCheck(el,coachid) {
                 var id = $(el).val();
                 var data = {
                     programid: id,
@@ -328,15 +331,15 @@
                     success: function (data) {
                         console.log(data);
                         parent.html(oldhtml);
-                        $("#programState" + id).prop("checked", state);
-                        
-
+                        $( $(el).attr('id')).prop("checked", state);
                     },
                     error: function (errMsg) {
                         parent.html(oldhtml)
-                        $("#programState" + id).prop("checked", state);
+                        $($(el).attr('id')).prop("checked", state);
                     }
                 });
             }
+        $(document).ready(function(){
+        })
     </script>
 {% endblock %}

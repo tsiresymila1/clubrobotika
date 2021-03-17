@@ -1,0 +1,280 @@
+{% extends "../../layouts/admin.html" %}
+{% block admin_content %}
+    <!-- Page content -->
+    <div class="container-fluid" style="margin-top:20px;">
+        <nav class="d-flex title-dash  " aria-label="breadcrumb">
+            <ol class="breadcrumb mt-2 mb-2 w-100 py-3 shadow-theme">
+                <li class="breadcrumb-item">
+                    <a href="#">Admin</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Cotisations</li>
+            </ol>
+        </nav>
+        {% if request.session.user.role == "superadmin" %}
+            <div class="container-fluid"></div>
+        {% endif %}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 m-0 p-0">
+                    <div class="card shadow-theme border-1 card-theme card-radius-5">
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button">
+                                Cotisation des étudiants
+                                </button>
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="row justify-content-md-start justify-content-sm-center mb-5">
+                                <div class="col-md-4 col-sm-12">
+                                    <input type="search" class="form-control search-control" placeholder="Recherche" id="searchnote">
+                                </div>
+                                <div class="col-md-2 col-sm-6 text-center">
+                                    <div class="form-inline justify-content-center">
+                                        <div class="form-group">
+                                            <label for="length_change" class="mr-1">Afficher </label>
+                                            <select  class="form-control" name='length_change' id='length_change'>
+                                                <option value='5'>5</option>
+                                                <option value='10'>10</option>
+                                                <option value='20'>20</option>
+                                                <option value='50'>50</option>
+                                                <option value='100'>100</option>
+                                                <option value='200'>200</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-sm-12">
+                                    <a href="#addFee" data-toggle="modal" class="btn btn-info">
+                                        <i class="fa fa-plus"></i> Nouveau</a>
+                                </div>
+                                <div class="col-md-2 col-sm-12">
+                                    <a href="#addOtherFee" data-toggle="modal" class="btn btn-info">
+                                        <i class="fa fa-plus"></i> Autre </a>
+                                </div>
+                            </div>
+                            <table class="table  table-bordered table-responsive-lg" id="transcriptionList">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Matricule</th>
+                                        <th scope="col">Catégorie</th>
+                                        <th scope="col">Nom et Prénom</th>
+                                        {% for fee in fees %}
+                                        <th scope="col" class="text-center" >{{fee.firstmonth}} {% if fee.secondmonth != null %} - {{fee.secondmonth}} {% endif %}   
+                                        <a href="#removeFee{{fee.id}}" data-toggle="modal"class="btn btn-link  mx-2">
+                                                            <i class="fa fa-times "></i>
+                                                        </a> </th>
+                                        {% endfor %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for student in students %}
+                                        <tr>
+                                            <td>{{student.matricule}}
+                                            </td>
+                                            <td>{{student.category}}
+                                            </td>
+                                            <td>{{ student.name | upper }}
+                                                {{ student.lastname | title }}
+                                            </td>
+                                            {% for fee in student.fees %} 
+                                                <td class="text-center"><input type="checkbox" onclick="toogleCheck(this,{{student.id}},{{ fee.fee.id }})" class="form-check-input" {% if  not fee['null'] %}  checked {% endif %}/></td>               
+                                            {% endfor %}
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Modal add-->
+      
+            {% for fee in fees %}
+            
+            <div class="modal animate__animated animate__zoomIn " id="removeFee{{fee.id}}" tiabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <form action="/admin/fee/delete" method="post">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Suppression de cotisation</h5>
+                                <button type="button" class="close text-theme-color" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <input type="hidden" id="fee_ed{{fee.id}}" name="id" value="{{fee.id}}"/>
+                                    <h6 id="title"> Confirmez-vous la suppression de cette cotisation ? </h6>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-info">Confirmer</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            {% endfor %}
+
+    </div>
+    <div class="modal animate__animated animate__zoomIn " id="addFee" tiabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form action="/admin/fee/add" method="post" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Payement cotisation</h5>
+                        <button type="button" class="close text-theme-color" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="form-group">
+                                <label for="firstmonth">Prémiere mois</label>
+                                <select class="form-control" id="firstmonth" name="firstmonth" aria-label="Default select example">
+                                    {% for month in months %}
+                                    <option value="{{month}}">{{month}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="secondmonth">Second mois</label>
+                                <select class="form-control" id="secondmonth" name="secondmonth" aria-label="Default select example">
+                                    {% for month in months %}
+                                    <option value="{{month}}">{{month}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-info">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal animate__animated animate__zoomIn " id="addOtherFee" tiabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form action="/admin/fee/add" method="post" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Payement cotisation</h5>
+                        <button type="button" class="close text-theme-color" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="form-group">
+                                <label for="firstmonth">Titre</label>
+                                <input class="form-control" id="firstmonth" name="firstmonth" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-info">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+
+        function toogleCheck(el,studentid,feeid) {
+                var elid = $(el).attr('id');
+                var data = {
+                    StudentId: studentid,
+                    FeeId : feeid
+                }
+                var state = false;
+                if ($(el).is(":checked")) {
+                    data['ispay'] = 1;
+                    state = true;
+                } else {
+                    data['ispay'] = null;
+                }
+                $(el).attr('checked',state);
+                var parent = $(el).parent()
+                var oldhtml = parent.html();
+                parent.html('<div class="spinner-border" style="height:1rem;width:1rem;"  role="status"><span class="sr-only">Loading...</span></div>')
+                $.ajax({
+                    type: "POST",
+                    url: "/admin/fee/edit",
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        parent.html(oldhtml);
+                        $(elid).prop("checked", state);
+                    },
+                    error: function (errMsg) {
+                        parent.html(oldhtml)
+                        $(elid).prop("checked", state);
+                    }
+                });
+            }
+
+        $
+            .fn
+            .dataTable
+            .ext
+            .search
+            .push(function (settings, data, dataIndex) {
+                var searchquery = $('#searchnote')
+                    .val()
+                    .toLowerCase();
+                var matricule = data[0].toLowerCase();
+                 var name = data[1].toLowerCase();
+                if (searchquery === "") {
+                    return true;
+                } else if (matricule.includes(searchquery) || name.includes(searchquery)) {
+                    return true;
+                }
+                return false;
+            });
+        $(document).ready(function () {
+            var oTable = $('#transcriptionList').DataTable({
+                "sDom": "rtipl",
+                "pageLength": 5,
+                "language": {
+                    "url": "/static/dist/french.json"
+                },
+                "aoColumnDefs": [
+                    {
+                        "bSortable": false,
+                        "aTargets": [2]
+                    }
+                ]
+            });
+            $('#searchnote').on('change input', function () {
+                oTable.draw();
+                //var length = oTable
+                //      .rows({search: 'applied'})
+                //     .count();
+                // $('#studentNumber').text(length)
+            });
+            $('#length_change').val(oTable.page.len());
+            $('#length_change').change(function () {
+                oTable
+                    .page
+                    .len($(this).val())
+                    .draw();
+            });
+        });
+    </script>
+{% endblock %}

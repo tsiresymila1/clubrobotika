@@ -21,7 +21,7 @@
             class="p-3 list-group-item list-group-item-action  {% if  request.session.active == 'transcription' %} active {% endif %}"><i
                 class="fas fa-file-alt">
             </i> <span class="ml-4" >Notes</span></a>
-         {% if(request.session.user.role == "superadmin")%}
+         {% if(request.session.user.role == "superadmin" or request.session.user.role == "admin")%}
          <a href="/admin/fee"
             class="p-3 list-group-item list-group-item-action {% if  request.session.active == 'fee' %} active {% endif %}"><i
                 class="fas  fa-credit-card">

@@ -8,6 +8,9 @@ import badgeCreator from '../core/pdf';
 
 router.get('/', function(req, res) {
     req.session.active = "coach";
+    if (req.session.user.role != "admin" && req.session.user.role != "superadmin") {
+        res.redirect('/admin')
+    }
     db.Coach.findAll({ raw: true, nest: true, }).then((data) => {
         res.render('admin/coach/index', { coachs: data, superadmin: req.session.login === "superadmin" });
     }).catch((error) => {
