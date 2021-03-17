@@ -283,7 +283,9 @@
                             <label for="studentid">Etudiant</label>
                             <select type="text" class="form-control selectpicker" id="studentid" name="studentid" data-live-search="true"  title="Choisir un etudiant" required>
                                 {% for student in students %}
+                                {% if student.category == program.category %}
                                 <option value="{{student.id}}">{{ student.matricule }} - {{student.name | upper }} {{student.lastname | title }}</option>
+                                {% endif %}
                                 {% endfor %}
                             </select>
                         </div>

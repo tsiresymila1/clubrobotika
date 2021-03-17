@@ -60,7 +60,7 @@ router.post('/add', function(req, res) {
 
 });
 
-router.post('/edit', function(req, res) {
+router.post('/edit/fee', function(req, res) {
     var jsondata = req.body;
     var updatejsondata = {...jsondata };
     delete jsondata['ispay'];
@@ -78,6 +78,24 @@ router.post('/edit', function(req, res) {
         res.status(500).send(err);
     })
 
+});
+
+router.post('/edit', function(req, res) {
+    var jsondata = req.body
+    var id = jsondata['id']
+    delete jsondata['id'];
+    db.Fee.findByPk(id).then((trans) => {
+        if(trans != null){
+            trans.update(jsondata).then((trans) => {
+                res.redirect('/admin/fee');
+            });
+        }
+        else{     
+            return res.status(500).send(error);
+        }
+    }).catch((error) => {
+        return res.status(500).send(error);
+    });
 });
 
 router.post('/delete', function(req, res) {

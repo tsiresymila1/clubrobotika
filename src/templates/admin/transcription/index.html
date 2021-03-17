@@ -56,9 +56,15 @@
                                         <th scope="col">Catégorie</th>
                                         <th scope="col">Nom et Prénom</th>
                                         {% for transcript in notes %}
-                                            <th scope="col" class="text-center" >{{transcript.title}} /{{transcript.bareme}}  <a href="#removeTransc{{transcript.id}}" data-toggle="modal"class="btn btn-link  mx-2">
-                                                            <i class="fa fa-times "></i>
-                                                        </a></th>
+                                            <th scope="col" class="text-center" >{{transcript.title}} /{{transcript.bareme}}
+                                                 <a href="#editNote{{transcript.id}}" data-toggle="modal"class="btn btn-link  mx-2">
+                                                    <i class="fa fa-edit text-info"></i>
+                                                </a>
+                                                <a href="#removeTransc{{transcript.id}}" data-toggle="modal"class="btn btn-link  mx-2">
+                                                    <i class="fa fa-times "></i>
+                                                </a>
+                                               
+                                            </th>
                                         {% endfor %}
 
                                     </tr>
@@ -105,32 +111,68 @@
 
         <!-- Modal add-->
         {% for transcript in notes %}
-        <div class="modal animate__animated animate__zoomIn " id="removeTransc{{transcript.id}}" tiabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <form action="/admin/transcription/delete" method="post">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Suppression de transcription</h5>
-                            <button type="button" class="close text-theme-color" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container-fluid">
-                                <input type="hidden" id="tranc_id{{transcript.id}}" name="id" value="{{transcript.id}}"/>
-                                <h6 id="title"> Confirmez-vous la suppression de cette transcription ? </h6>
+            <div class="modal animate__animated animate__zoomIn " id="removeTransc{{transcript.id}}" tiabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <form action="/admin/transcription/delete" method="post">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Suppression de transcription</h5>
+                                <button type="button" class="close text-theme-color" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-info">Confirmer</button>
-                        </div>
-                    </form>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <input type="hidden" id="tranc_id{{transcript.id}}" name="id" value="{{transcript.id}}"/>
+                                    <h6 id="title"> Confirmez-vous la suppression de cette transcription ? </h6>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-info">Confirmer</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+            <div class="modal animate__animated animate__zoomIn " id="editNote{{transcript.id}}" tiabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <form action="/admin/transcription/edit" method="post" enctype="multipart/form-data">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Modification de transcription</b>
+                                </h5>
+                                <button type="button" class="close text-theme-color" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <input type="hidden" id="note_id{{transcript.id}}" name="id" value="{{transcript.id}}"/>
+                                    <div class="container-fluid">
+                                    <div class="form-group">
+                                        <label for="bareme">Baréme</label>
+                                        <input type="text" class="form-control" id="bareme" value="{{transcript.bareme}}" name="bareme" aria-describedby="textHelp">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="title">Titre</label>
+                                        <input type="text" class="form-control" id="title" value="{{transcript.title}}" name="title" required>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-info">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
         {% endfor %}
         {% for student in students %}
+
             {% for transcript in notes %}
                 <!-- Modal delete-->
                 <div class="modal animate__animated animate__zoomIn " id="addNote{{student.id}}{{transcript.id}}" tiabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -162,6 +204,7 @@
                         </div>
                     </form>
                 </div>
+
                 <div class="modal animate__animated animate__zoomIn " id="removeNote{{student.id}}{{transcript.id}}" tiabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered" role="document">
                         <div class="modal-content">
@@ -236,7 +279,7 @@
                     .val()
                     .toLowerCase();
                 var matricule = data[0].toLowerCase();
-                 var cat = data[1].toLowerCase();
+                var cat = data[1].toLowerCase();
                 var name = data[2].toLowerCase();
                 if (searchquery === "") {
                     return true;

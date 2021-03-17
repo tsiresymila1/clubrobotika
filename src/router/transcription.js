@@ -81,17 +81,33 @@ router.post('/note/delete', function(req, res) {
     });
 });
 
-router.post('/delete', function(req, res) {
-    db.Transcription.destroy({
-        where: req.body
-    }).then((rep) => {
-        res.redirect('/admin/fee');
+router.post('/edit', function(req, res) {
+    var jsondata = req.body
+    var id = jsondata['id']
+    delete jsondata['id'];
+    db.Transcription.findByPk(id).then((trans) => {
+        if(trans != null){
+            trans.update(jsondata).then((trans) => {
+                res.redirect('/admin/transcription');
+            });
+        }
+        else{     
+            return res.status(500).send(error);
+        }
     }).catch((error) => {
         return res.status(500).send(error);
     });
 });
 
-
+router.post('/delete', function(req, res) {
+    db.Transcription.destroy({
+        where: req.body
+    }).then((rep) => {
+        res.redirect('/admin/transcription');
+    }).catch((error) => {
+        return res.status(500).send(error);
+    });
+});
 
 
 module.exports = router;

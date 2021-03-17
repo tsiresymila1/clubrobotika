@@ -146,13 +146,14 @@
         </div>
     </div>
 </div>
+{% if request.session.user.role == "admin" or request.session.user.role == "superadmin" %}
 <div class="row">
     <div class="col-12 m-0 p-0 px-5">
         <div class="card shadow-theme border-1 card-theme card-radius-5 mb-5">
             <div class="card-header" id="headingOne">
                 <h2 class="mb-0">
                     <button class="btn btn-link" type="button">
-                                Statictique de présence
+                                Statistique de présence
                                 </button>
                 </h2>
             </div>
@@ -176,7 +177,6 @@
                                 <td>{{program.title}}</td>
                                 <td>{{program.coachs | length}}</td>
                                 <td>{{program.students | length}}</td>
-
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -188,6 +188,7 @@
     </div>
 
 </div>
+{% endif %}
 {% endblock %}
 
 {% block script %}
