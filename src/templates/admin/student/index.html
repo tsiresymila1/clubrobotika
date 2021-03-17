@@ -120,7 +120,7 @@
                                             <td>{{ student.grade}}</td>
                                             <td>{{ student.field}}</td>
                                             <td>{{ student.school}}</td>
-                                            <td>{{ student.presents | length }}</td>
+                                            <td>{{ student.presences | length }}</td>
                                           
                                             <td class="text-center">
                                                 {% if request.session.user.role == "superadmin" or request.session.user.role == "admin" %}

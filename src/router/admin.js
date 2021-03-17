@@ -52,12 +52,12 @@ router.get('/', function(req, res) {
     }).then(function(resultat) {
         db.Student.findAll().then(function(resultat2) {
             db.Program.findAll({
-                include: [{ model: db.Student, required: false, as: "presents" }],
-                include: [{ model: db.Coach, required: false, as: "coachs" }],
+                include: [{ model: db.Student, required: false, as: "presents" },{ model: db.Coach, required: false, as: "coachs" }],
                 order: [
-                    ['date', 'ASC'],
+                    ['date', 'ASC'], 
                 ]
             }).then(function(resultat3) {
+                console.log(resultat3)
                 db.Program.findAll({
                     where: {
                         category: req.session.user.category
