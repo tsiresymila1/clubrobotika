@@ -8,6 +8,43 @@ import db from '../models';
 const { Op } = require("sequelize");
 
 
+function recursiveStudent(students, notes, index, studentsnews, callback) {
+    if (index >= students.length) {
+        callback(studentsnews)
+    } else {
+        var m = students[index];
+        var snotes = [];
+        recursiveTranscription(m, notes, 0, snotes, function(student_notes) {
+            m['notes'] = student_notes
+            studentsnews.push(m);
+            recursiveStudent(students, notes, index + 1, studentsnews, callback)
+        })
+
+    }
+}
+
+function recursiveTranscription(m, notes, index, student_notes, callback) {
+    if (index >= notes.length) {
+        callback(student_notes)
+    } else {
+        var note = notes[index]
+        db.TStudent.findOne({ where: { StudentId: m.id, TranscriptionId: note.id } }).then(function(snote) {
+            if (snote == null) {
+                snote = {
+                    null: true
+                };
+            } else {
+                snote['null'] = false
+            }
+            snote['transcription'] = note;
+            student_notes.push(snote)
+            recursiveTranscription(m, notes, index + 1, student_notes, callback)
+        })
+
+    }
+}
+
+
 router.get('/', function(req, res) {
     req.session.active = "transcription";
     var whereclose = {};
@@ -16,7 +53,6 @@ router.get('/', function(req, res) {
             category: req.session.user.category
         }
     }
-
     db.Student.findAll({ raw: true, nest: true, where: whereclose }).then(function(data) {
         db.Transcription.findAll({
             raw: true,
@@ -25,27 +61,11 @@ router.get('/', function(req, res) {
                 ['id', 'ASC']
             ]
         }).then(function(notes) {
-            // console.log(data[0]) 
-            // console.log(notes[0])
-            Promise.all(data.map(async function(m) {
-                m['notes'] = await Promise.all(notes.map(async function(note) {
-                    var snote = await db.TStudent.findOne({ where: { StudentId: m.id, TranscriptionId: note.id } })
-                    if (snote == null) {
-                        snote = {
-                            null: true
-                        };
-                    } else {
-                        snote['null'] = false
 
-                    }
-                    snote['transcription'] = note;
-                    return snote;
-                }));
-                return m;
-            })).then((newstudents) => {
+            recursiveStudent(data, notes, 0, [], function(newstudents) {
                 console.log(newstudents[0])
                 res.render('admin/transcription/index', { students: newstudents, notes: notes });
-            });
+            })
         })
     })
 });
@@ -86,12 +106,11 @@ router.post('/edit', function(req, res) {
     var id = jsondata['id']
     delete jsondata['id'];
     db.Transcription.findByPk(id).then((trans) => {
-        if(trans != null){
+        if (trans != null) {
             trans.update(jsondata).then((trans) => {
                 res.redirect('/admin/transcription');
             });
-        }
-        else{     
+        } else {
             return res.status(500).send(error);
         }
     }).catch((error) => {

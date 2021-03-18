@@ -184,6 +184,25 @@
               <h4 class="mb-0">Contact</h4>
             </div>
             <div class="card-body">
+              
+              <div class="form-group">
+                <label for="time">Horaire</label>
+                    <select class="form-control" id="time" name="time">
+                      <option  value="M">Matin</option>
+                      <option   value="A">Aprés-Midi</option>
+                    </select>
+              </div>
+              <div class="form-group form-check">
+       
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="present"
+                  name="present"
+                  value="1"  
+                />
+                <label class="form-check-label" for="present">Droit d'inscription</label>
+              </div>
               <div class="form-group">
                 <label for="email">Email</label>
                 <input
@@ -192,6 +211,7 @@
                   id="email"
                   name="email"
                   aria-describedby="emailHelp"
+                   value="" 
                 />
               </div>
               <div class="form-group">
@@ -201,7 +221,19 @@
                   class="form-control"
                   id="phone"
                   name="phone"
+                  aria-describedby="emailHelp"    
+                   value="" 
+                />
+              </div>
+              <div class="form-group">
+                <label for="userId">Facebook Id</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="userId"
+                  name="userId"
                   aria-describedby="emailHelp"
+                   value="{{student.userId}}" 
                 />
               </div>
             </div>

@@ -39,6 +39,15 @@ router.post('/update', function(req, res) {
             datajson['image'] = imagefile.file.name;
             var id = datajson.id;
             delete datajson['id'];
+            var password = datajson.password;
+            delete datajson['id'];
+            if (password !== "") {
+                var hash = crypto.createHash('sha256');
+                var hash_password = hash.update(datajson.password).digest('hex');
+                datajson['password'] = hash_password;
+            } else {
+                delete datajson['password'];
+            }
             // console.log(datajson, id);
             db.Coach.update(datajson, { where: { id: id } }).then(() => {
                 db.Coach.findOne({

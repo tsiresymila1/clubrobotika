@@ -22,8 +22,9 @@ function editcoach(e, coach) {
     $('#ed_phone').val(coach.phone);
     $('#ed_matricule').val(coach.matricule);
     $('#ed_username').val(coach.username);
-    $('#ed_password').val(coach.password);
-    $('#ed_role').val(coach.role);
+    // $('#ed_password').val(coach.password);
+    // $('#ed_role').val(coach.role);
+    $(`#ed_role option[value='${coach.role}]'`).attr('selected', 'selected');
     $(`#ed_category option[value='${coach.category}]'`).attr('selected', 'selected');
     $('#modalEditCoach').modal();
 }
@@ -42,7 +43,12 @@ function showcoach(e, coach) {
 $(document).ready(function() {
     /* show file value after file select */
 
-
+    $('.modal').on('show.bs.modal', function(e) {
+        $(this).attr('class', 'modal animate__animated animate__zoomIn');
+    })
+    $('.modal').on('hide.bs.modal', function(e) {
+        $(this).attr('class', 'modal animate__animated animate__zoomOut');
+    })
     $('.custom-file-input').on('change', function() {
         var fileName = document.getElementById("exampleInputFile").files[0].name;
         $(this).next('.form-control-file').addClass("selected").html(fileName);
